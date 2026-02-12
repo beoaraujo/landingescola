@@ -907,6 +907,34 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
         .btn[disabled] { opacity: .7; cursor: not-allowed; pointer-events: none; }
+
+        /* ═══════════════════════════════════════════
+           ADMIN UPLOAD PANEL (visible only with ?admin=1)
+        ═══════════════════════════════════════════ */
+        .admin-panel {
+            display: none; position: fixed; top: 70px; right: 16px; z-index: 200;
+            background: #fff; border-radius: var(--radius-lg); box-shadow: var(--shadow-float);
+            padding: 20px; width: 300px; border: 2px solid var(--sky-500);
+        }
+        .admin-panel.visible { display: block; }
+        .admin-panel h3 { font-size: 15px; margin-bottom: 8px; color: var(--navy-800); }
+        .admin-hint { font-size: 12px; color: var(--slate-500); margin-bottom: 12px; line-height: 1.4; }
+        .admin-drop-zone {
+            border: 2px dashed var(--slate-300); border-radius: 12px; padding: 20px 12px;
+            text-align: center; cursor: pointer; transition: var(--transition-base); margin-bottom: 10px;
+        }
+        .admin-drop-zone:hover, .admin-drop-zone.dragover { border-color: var(--sky-500); background: #f0f9ff; }
+        .admin-drop-zone input[type="file"] { display: none; }
+        .admin-drop-zone p { font-size: 12px; color: var(--slate-500); line-height: 1.4; }
+        .admin-drop-icon { font-size: 28px; margin-bottom: 6px; color: var(--slate-400); }
+        .admin-status { font-size: 12px; padding: 8px 10px; border-radius: 8px; margin-top: 8px; line-height: 1.4; }
+        .admin-status.success { background: #d1fae5; color: #065f46; }
+        .admin-status.error { background: #fce4ea; color: #8B1A2B; }
+        .admin-btn-row { display: flex; gap: 6px; margin-top: 10px; }
+        .admin-btn-row .btn { flex: 1; font-size: 11px; padding: 7px 8px; }
+        @media (max-width: 639px) {
+            .admin-panel { right: 8px; left: 8px; width: auto; top: 62px; }
+        }
     </style>
 </head>
 <body>
@@ -920,7 +948,7 @@
         <div class="logo-group">
             <img src="logo-tcmpa.png" alt="TCM-PA" class="logo-img">
         </div>
-        <div class="header-badge">Março 2026</div>
+        <div class="header-badge">Junho 2026 — Bragança</div>
     </div>
 </header>
 
@@ -938,11 +966,11 @@
             <div class="dot"></div>
             <span>Inscrições Abertas</span>
         </div>
-        <h1>Semana de Capacitação <em>2026</em></h1>
+        <h1>Semana de Capacitação <em>Bragança 2026</em></h1>
         <p>Monte sua trilha personalizada! Escolha os cursos que mais se encaixam no seu perfil, com mínimo de 1 curso obrigatório.</p>
         <div class="hero-tags">
-            <div class="hero-tag"><span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span> 15–17 de Março</div>
-            <div class="hero-tag"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 5 Turnos disponíveis</div>
+            <div class="hero-tag"><span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span> 01–05 de Junho</div>
+            <div class="hero-tag"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 8 Turnos disponíveis</div>
             <div class="hero-tag highlight"><span class="icon"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span> Mínimo 1 curso</div>
         </div>
         <div class="countdown" id="countdown"></div>
@@ -954,21 +982,21 @@
 <section class="benefits">
     <div class="benefits-inner">
         <h2 class="benefits-title">Por que participar?</h2>
-        <p class="benefits-sub">A Semana de Capacitação prepara servidores para os desafios da gestão pública municipal.</p>
+        <p class="benefits-sub">A Semana de Capacitação em Bragança prepara servidores para os desafios da gestão pública municipal.</p>
 
         <div class="benefits-stats">
             <div class="stat-item">
-                <div class="stat-num">15</div>
+                <div class="stat-num">21</div>
                 <div class="stat-label">Cursos disponíveis</div>
             </div>
             <div class="stat-divider"></div>
             <div class="stat-item">
-                <div class="stat-num">5</div>
-                <div class="stat-label">Turnos em 3 dias</div>
+                <div class="stat-num">8</div>
+                <div class="stat-label">Turnos em 5 dias</div>
             </div>
             <div class="stat-divider"></div>
             <div class="stat-item">
-                <div class="stat-num">60h</div>
+                <div class="stat-num">82h</div>
                 <div class="stat-label">De conteúdo prático</div>
             </div>
             <div class="stat-divider"></div>
@@ -1029,8 +1057,27 @@
 <!-- ════════ FLOATING COUNTER ════════ -->
 <div class="float-counter" id="floatCounter" style="display:none">
     <div class="float-counter-label">Selecionados</div>
-    <div class="float-counter-num"><span id="counterNum">0</span><small> / 5</small></div>
+    <div class="float-counter-num"><span id="counterNum">0</span><small> / <span id="counterMax">5</span></small></div>
     <div class="float-counter-status warn" id="counterStatus">Mín: 1 curso</div>
+</div>
+
+<!-- ════════ ADMIN UPLOAD PANEL ════════ -->
+<div class="admin-panel" id="adminPanel">
+    <h3>Atualizar Cursos</h3>
+    <p class="admin-hint">Envie um arquivo JSON ou CSV para atualizar cursos, datas e instrutores.</p>
+    <div class="admin-drop-zone" id="adminDropZone" onclick="document.getElementById('adminFileInput').click()">
+        <div class="admin-drop-icon"><span class="icon" style="width:28px;height:28px"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span></div>
+        <p>Arraste um arquivo aqui<br>ou clique para selecionar<br><small style="color:var(--slate-400)">.json ou .csv</small></p>
+        <input type="file" id="adminFileInput" accept=".json,.csv">
+    </div>
+    <div id="adminStatus"></div>
+    <div class="admin-btn-row">
+        <button class="btn btn-ghost" onclick="exportCurrentJSON()">Exportar JSON</button>
+        <button class="btn btn-ghost" onclick="downloadCSVTemplate()">Modelo CSV</button>
+    </div>
+    <div class="admin-btn-row">
+        <button class="btn btn-ghost" onclick="resetToDefaults()" style="color:var(--red-500)">Restaurar Padrão</button>
+    </div>
 </div>
 
 <!-- ════════ MAIN ════════ -->
@@ -1070,154 +1117,220 @@
 /* ═══════════════════════════════════════════
    DATA
 ═══════════════════════════════════════════ */
-const TURNOS = [
+let TURNOS = [
     {
-        id: 1, label: 'Turno 1', shortLabel: 'Seg Manhã',
-        badge: 'Segunda-feira • 15/03 • Manhã (8h–12h)', badgeBg: '#e0effa', badgeColor: '#004a80',
+        id: 1, label: 'Turno 1', shortLabel: 'Seg Tarde',
+        badge: 'Seg • 01/06 • Tarde (14h–18h)', badgeBg: '#e0effa', badgeColor: '#004a80',
         courses: [
             {
-                id: 'c1-1', name: 'Controle Interno Básico', theme: 'theme-blue', tag: 'Nível Básico',
-                title: 'Controle Interno', subtitle: 'Fundamentos e Gestão de Riscos',
-                instructor: 'Aristides Gomes', instrRole: 'Auditor de Controle Externo', instrInitials: 'AG', instrTheme: 'theme-blue',
-                desc: 'Introdução aos conceitos fundamentais de controle interno, identificação e avaliação de riscos, e implementação de controles preventivos e detectivos na administração pública municipal.',
-                publico: 'Servidores iniciantes em controle interno, gestores públicos, membros de comissões de controle e auditoria interna.',
+                id: 'c1-1', name: 'Geral', theme: 'theme-blue', tag: 'Geral',
+                title: 'ABERTURA', subtitle: 'Cenário 2026',
+                instructor: 'Sérgio Leão', instrRole: 'Diretor Executivo da Escola de Contas Públicas "Conselheiro Irawaldyr Rocha"', instrInitials: 'SL', instrTheme: 'theme-blue',
+                desc: '',
+                publico: 'Presencial',
                 duracao: '4h', vagas: 50, ctaColor: '#004a80'
-            },
-            {
-                id: 'c1-2', name: 'Gestão de Contratos I', theme: 'theme-emerald', tag: 'Lei 14.133/21',
-                title: 'Gestão de Contratos I', subtitle: 'Fundamentos da Nova Lei',
-                instructor: 'Patrícia Alves', instrRole: 'Especialista em Licitações', instrInitials: 'PA', instrTheme: 'theme-emerald',
-                desc: 'Visão geral da Lei 14.133/21, principais mudanças em relação à Lei 8.666/93, fases da contratação, modalidades licitatórias e o papel do gestor de contratos.',
-                publico: 'Pregoeiros, membros de comissão de licitação, gestores e fiscais de contratos, servidores de setores de compras.',
-                duracao: '4h', vagas: 50, ctaColor: '#00a86b'
-            },
-            {
-                id: 'c1-3', name: 'Contabilidade MCASP', theme: 'theme-violet', tag: 'MCASP 9ª Ed.',
-                title: 'Contabilidade Pública', subtitle: 'Manual Aplicado ao Setor Público',
-                instructor: 'Roberto Lima', instrRole: 'Contador Público', instrInitials: 'RL', instrTheme: 'theme-violet',
-                desc: 'Estrutura do MCASP, Plano de Contas Aplicado ao Setor Público (PCASP), procedimentos contábeis patrimoniais e demonstrações contábeis obrigatórias.',
-                publico: 'Contadores públicos, técnicos em contabilidade, servidores de setores financeiros e de controle interno.',
-                duracao: '4h', vagas: 40, ctaColor: '#9b51e0'
             }
         ]
     },
     {
-        id: 2, label: 'Turno 2', shortLabel: 'Seg Tarde',
-        badge: 'Segunda-feira • 15/03 • Tarde (14h–18h)', badgeBg: '#fce4ea', badgeColor: '#8B1A2B',
+        id: 2, label: 'Turno 2', shortLabel: 'Ter Manhã',
+        badge: 'Ter • 02/06 • Manhã (8h30–12h30)', badgeBg: '#fce4ea', badgeColor: '#8B1A2B',
         courses: [
             {
-                id: 'c2-1', name: 'Prestação de Contas', theme: 'theme-amber', tag: 'TCM-PA',
-                title: 'Prestação de Contas', subtitle: 'Elaboração e Análise Anual',
-                instructor: 'Fernanda Costa', instrRole: 'Analista de Contas do TCM', instrInitials: 'FC', instrTheme: 'theme-amber',
-                desc: 'Documentos obrigatórios, prazos legais, principais irregularidades encontradas pelo TCM-PA, roteiro prático para montagem do processo de prestação de contas.',
-                publico: 'Contadores, controladores internos, secretários municipais, assessores de prefeitos e presidentes de câmaras.',
-                duracao: '4h', vagas: 80, ctaColor: '#8B1A2B'
-            },
-            {
-                id: 'c2-2', name: 'Transparência e LAI', theme: 'theme-rose', tag: 'Lei 12.527/11',
-                title: 'Transparência Pública', subtitle: 'LAI e Portal da Transparência',
-                instructor: 'Ana Beatriz', instrRole: 'Ouvidora Pública', instrInitials: 'AB', instrTheme: 'theme-rose',
-                desc: 'Obrigações da Lei de Acesso à Informação, transparência ativa e passiva, estruturação do Portal da Transparência, SIC e tratamento de denúncias.',
-                publico: 'Ouvidores, responsáveis por portais de transparência, servidores de TI, assessores de comunicação.',
-                duracao: '4h', vagas: 100, ctaColor: '#CC3366'
-            },
-            {
-                id: 'c2-3', name: 'SICONFI Prático', theme: 'theme-teal', tag: 'STN',
-                title: 'SICONFI Prático', subtitle: 'Declarações e Relatórios',
-                instructor: 'Carlos Mendonça', instrRole: 'Consultor em Finanças Públicas', instrInitials: 'CM', instrTheme: 'theme-teal',
-                desc: 'Navegação no sistema SICONFI, envio de declarações (RREO, RGF, DCA, MSC), correção de inconsistências e homologação de dados.',
-                publico: 'Contadores públicos, técnicos responsáveis pelo envio de declarações ao SICONFI, gestores financeiros.',
-                duracao: '4h', vagas: 40, ctaColor: '#10517f'
-            }
-        ]
-    },
-    {
-        id: 3, label: 'Turno 3', shortLabel: 'Ter Manhã',
-        badge: 'Terça-feira • 16/03 • Manhã (8h–12h)', badgeBg: '#fce4ee', badgeColor: '#991f4d',
-        courses: [
-            {
-                id: 'c3-1', name: 'Licitações na Prática', theme: 'theme-rose', tag: 'Casos Práticos',
-                title: 'Licitações na Prática', subtitle: 'Estudos de Caso Municipais',
-                instructor: 'Patrícia Alves', instrRole: 'Especialista em Licitações', instrInitials: 'PA', instrTheme: 'theme-rose',
-                desc: 'Análise de casos reais de processos licitatórios, erros comuns, recursos administrativos, e boas práticas para evitar irregularidades apontadas pelo TCM.',
-                publico: 'Pregoeiros, agentes de contratação, membros de comissão de licitação, assessores jurídicos.',
-                duracao: '4h', vagas: 60, ctaColor: '#CC3366'
-            },
-            {
-                id: 'c3-2', name: 'Controle Interno Avançado', theme: 'theme-violet', tag: 'Nível Avançado',
-                title: 'Controle Interno II', subtitle: 'Auditoria e Matriz de Riscos',
-                instructor: 'Aristides Gomes', instrRole: 'Auditor de Controle Externo', instrInitials: 'AG', instrTheme: 'theme-violet',
-                desc: 'Elaboração de matriz de riscos, planejamento de auditoria interna, técnicas de amostragem, relatórios de auditoria e monitoramento de recomendações.',
-                publico: 'Controladores internos com experiência, auditores, gestores de risco, membros de comitês de governança.',
-                duracao: '4h', vagas: 40, ctaColor: '#9b51e0'
-            },
-            {
-                id: 'c3-3', name: 'Folha de Pagamento', theme: 'theme-teal', tag: 'Gestão de Pessoas',
-                title: 'Folha de Pagamento', subtitle: 'Gestão e Controle no Setor Público',
-                instructor: 'Roberto Lima', instrRole: 'Contador Público', instrInitials: 'RL', instrTheme: 'theme-teal',
-                desc: 'Limites de despesa com pessoal (LRF), controle de gratificações, horas extras, cessões, aposentadorias e principais irregularidades verificadas pelo TCM.',
-                publico: 'Servidores de RH, gestores de pessoal, contadores, controladores internos, secretários de administração.',
-                duracao: '4h', vagas: 50, ctaColor: '#10517f'
-            }
-        ]
-    },
-    {
-        id: 4, label: 'Turno 4', shortLabel: 'Ter Tarde',
-        badge: 'Terça-feira • 16/03 • Tarde (14h–18h)', badgeBg: '#e8f5ec', badgeColor: '#006b44',
-        courses: [
-            {
-                id: 'c4-1', name: 'Gestão de Contratos II', theme: 'theme-amber', tag: 'Avançado',
-                title: 'Gestão de Contratos II', subtitle: 'Fiscalização, Aditivos e Sanções',
-                instructor: 'Patrícia Alves', instrRole: 'Especialista em Licitações', instrInitials: 'PA', instrTheme: 'theme-amber',
-                desc: 'Atribuições do fiscal de contratos, elaboração de relatórios de acompanhamento, termos aditivos, aplicação de sanções e rescisão contratual.',
-                publico: 'Fiscais de contratos, gestores de contratos, ordenadores de despesa, assessores jurídicos.',
+                id: 'c2-1', name: 'Gestão e Finanças', theme: 'theme-amber', tag: 'Gestão e Finanças',
+                title: 'REFORMA TRIBUTÁRIA', subtitle: 'IBS/CBS',
+                instructor: 'René de Oliveira e Sousa Jr', instrRole: 'Secretário de Fazenda do Pará', instrInitials: 'RO', instrTheme: 'theme-amber',
+                desc: '',
+                publico: 'Presencial',
                 duracao: '4h', vagas: 50, ctaColor: '#8B1A2B'
             },
             {
-                id: 'c4-2', name: 'Orçamento Público', theme: 'theme-blue', tag: 'PPA • LDO • LOA',
-                title: 'Orçamento Público', subtitle: 'Ciclo Orçamentário na Prática',
-                instructor: 'Fernanda Costa', instrRole: 'Analista de Contas do TCM', instrInitials: 'FC', instrTheme: 'theme-blue',
-                desc: 'Elaboração do PPA, LDO e LOA, classificação orçamentária, créditos adicionais, execução orçamentária e cumprimento de metas fiscais.',
-                publico: 'Servidores de planejamento e orçamento, contadores, secretários de finanças, assessores de gabinete.',
-                duracao: '4h', vagas: 60, ctaColor: '#004a80'
+                id: 'c2-2', name: 'Controle e Contas', theme: 'theme-teal', tag: 'Controle e Contas',
+                title: 'Controle Interno: Gestão de Riscos e Boas Práticas para Servidores Municipais', subtitle: 'Identificação e avaliação de riscos',
+                instructor: 'Aristides Gomes Neto', instrRole: 'Auditor de Controle Externo (TCMPA)', instrInitials: 'AG', instrTheme: 'theme-teal',
+                desc: 'Capacitar servidores a identificar, avaliar e mitigar riscos no cotidiano, incorporando rotinas de Controle Interno como prática natural do trabalho.',
+                publico: 'Servidores que atuem na área de controle interno das prefeituras e câmaras municipais.',
+                duracao: '4h', vagas: 50, ctaColor: '#10517f'
             },
             {
-                id: 'c4-3', name: 'Ouvidoria Municipal', theme: 'theme-emerald', tag: 'Atendimento',
-                title: 'Ouvidoria Municipal', subtitle: 'Gestão e Atendimento ao Cidadão',
-                instructor: 'Ana Beatriz', instrRole: 'Ouvidora Pública', instrInitials: 'AB', instrTheme: 'theme-emerald',
-                desc: 'Estruturação da ouvidoria, fluxo de atendimento, tratamento de manifestações, indicadores de desempenho e integração com o controle interno.',
-                publico: 'Ouvidores, servidores de atendimento ao público, gestores de qualidade, controladores internos.',
-                duracao: '4h', vagas: 80, ctaColor: '#00a86b'
+                id: 'c2-3', name: 'Políticas Públicas', theme: 'theme-rose', tag: 'Políticas Públicas',
+                title: 'Do papel ao orçamento: como viabilizar o PMPI no município', subtitle: 'Estruturação do PMPI',
+                instructor: 'Márcia Costa', instrRole: 'Conselheira Substituta (TCMPA)', instrInitials: 'MC', instrTheme: 'theme-rose',
+                desc: 'Capacitar os participantes para estruturar, revisar e viabilizar o Plano Municipal da Primeira Infância - PMPI.',
+                publico: 'Secretários, diretores, coordenadores, técnicos e assessores das secretarias municipais de Educação, Saúde, Assistência Social, Planejamento e Orçamento; membros dos Conselhos de Direitos da Criança e do Adolescente e integrantes de comitês intersetoriais da primeira infância.',
+                duracao: '4h', vagas: 50, ctaColor: '#CC3366'
             }
         ]
     },
     {
-        id: 5, label: 'Turno 5', shortLabel: 'Qua Manhã',
-        badge: 'Quarta-feira • 17/03 • Manhã (8h–12h)', badgeBg: '#f3e8ff', badgeColor: '#7b3bb5',
+        id: 3, label: 'Turno 3', shortLabel: 'Ter Tarde',
+        badge: 'Ter • 02/06 • Tarde (14h–18h)', badgeBg: '#fce4ee', badgeColor: '#991f4d',
         courses: [
             {
-                id: 'c5-1', name: 'Workshop: Casos TCM', theme: 'theme-blue', tag: 'Workshop',
-                title: 'Casos do TCM-PA', subtitle: 'Jurisprudência e Decisões',
-                instructor: 'Carlos Mendonça', instrRole: 'Consultor em Finanças Públicas', instrInitials: 'CM', instrTheme: 'theme-blue',
-                desc: 'Análise de decisões recentes do TCM-PA, entendimentos consolidados, recursos e defesas, e orientações para evitar irregularidades.',
-                publico: 'Todos os servidores públicos municipais, especialmente gestores, contadores e controladores internos.',
-                duracao: '4h', vagas: 100, ctaColor: '#004a80'
+                id: 'c3-1', name: 'Gestão e Finanças', theme: 'theme-blue', tag: 'Gestão e Finanças',
+                title: 'EMENDAS PARLAMENTARES IMPOSITIVAS MUNICIPAIS: da Instituição à Prestação de Contas', subtitle: 'Emendas impositivas municipais',
+                instructor: 'Erika Maestri', instrRole: 'Auditora de Controle Externo (TCMPA)', instrInitials: 'EM', instrTheme: 'theme-blue',
+                desc: 'Capacitar agentes políticos, servidores públicos e representantes da sociedade civil para a correta aplicação do regime de emendas parlamentares impositivas municipais, em conformidade com a Instrução Normativa n.o 6/2025/TCMPA e a jurisprudência do STF, promovendo uma gestão pública eficiente, transparente e responsável.',
+                publico: 'Agentes Políticos (Prefeitos e Vereadores), Servidores Públicos Municipais (Procuradores Jurídicos, Contadores, etc.), Controladores Internos, Representantes de Organizações da Sociedade Civil (OSCs), Sociedade Civil.',
+                duracao: '4h', vagas: 50, ctaColor: '#004a80'
             },
             {
-                id: 'c5-2', name: 'Encerramento de Mandato', theme: 'theme-emerald', tag: 'Transição',
-                title: 'Encerramento de Mandato', subtitle: 'Procedimentos para Transição',
-                instructor: 'Fernanda Costa', instrRole: 'Analista de Contas do TCM', instrInitials: 'FC', instrTheme: 'theme-emerald',
-                desc: 'Obrigações do último ano de mandato, vedações eleitorais, passagem de cargo, inventário patrimonial e responsabilização de gestores.',
-                publico: 'Prefeitos, vereadores, secretários municipais, contadores, controladores e assessores de gabinete.',
-                duracao: '4h', vagas: 80, ctaColor: '#00a86b'
+                id: 'c3-2', name: 'Controle e Contas', theme: 'theme-emerald', tag: 'Controle e Contas',
+                title: 'Prestação de Contas de Convênio', subtitle: 'Gestão de transferências voluntárias',
+                instructor: 'A definir', instrRole: 'A definir', instrInitials: 'AD', instrTheme: 'theme-emerald',
+                desc: 'Fortalecer a gestão, execução, monitoramento e prestação de contas de transferências voluntárias, por meio de ação integrada, preventiva e pedagógica do TCE-PA e do TCM-PA.',
+                publico: 'Prefeitos(as) e Vice-prefeitos(as), Secretários(as) municipais (Administração, Educação, Saúde, Assistência Social), Técnicos das áreas de convênios, contabilidade, controle interno e planejamento e Ordenadores de despesa e fiscais de convênios.',
+                duracao: '2h', vagas: 50, ctaColor: '#00a86b'
             },
             {
-                id: 'c5-3', name: 'Compliance Municipal', theme: 'theme-violet', tag: 'Integridade',
-                title: 'Compliance Municipal', subtitle: 'Programa de Integridade',
-                instructor: 'Aristides Gomes', instrRole: 'Auditor de Controle Externo', instrInitials: 'AG', instrTheme: 'theme-violet',
-                desc: 'Implementação de programa de integridade, código de ética, canal de denúncias, conflito de interesses e cultura de compliance no setor público.',
-                publico: 'Gestores públicos, controladores internos, corregedores, ouvidores, membros de comissões de ética.',
-                duracao: '4h', vagas: 60, ctaColor: '#9b51e0'
+                id: 'c3-3', name: 'Licitações e Contratos', theme: 'theme-violet', tag: 'Licitações e Contratos',
+                title: 'Operação do Sistema Geo-obras e aspectos básicos da execução contratual de obras e serviços públicos de engenharia', subtitle: 'Sistema Geo-obras',
+                instructor: 'Ricardo Nunes', instrRole: 'Servidor (TCMPA)', instrInitials: 'RN', instrTheme: 'theme-violet',
+                desc: 'Capacitar e reciclar os servidores municipais, usuários do Sistema Geo-obras, sobre sua alimentação e apresentar os principais pontos sobre a execução contratual de obras e serviços públicos de engenharia.',
+                publico: 'Servidores municipais responsáveis pela alimentação do Sistema Geo-obras; Servidores municipais responsáveis pelo planejamento e fiscalização das obras e serviços de engenharia.',
+                duracao: '4h', vagas: 50, ctaColor: '#9b51e0'
+            }
+        ]
+    },
+    {
+        id: 4, label: 'Turno 4', shortLabel: 'Qua Manhã',
+        badge: 'Qua • 03/06 • Manhã (8h30–12h30)', badgeBg: '#e8f5ec', badgeColor: '#006b44',
+        courses: [
+            {
+                id: 'c4-1', name: 'Controle e Contas', theme: 'theme-amber', tag: 'Controle e Contas',
+                title: 'Principais falhas nas Análises de Prestações de Contas e nos Procedimentos Licitatórios e os Prejulgados do TCM/PA', subtitle: 'Pontos de controle obrigatórios',
+                instructor: 'Diego Estácio', instrRole: 'Auditor de Controle Externo (TCMPA)', instrInitials: 'DE', instrTheme: 'theme-amber',
+                desc: 'Desenvolver nos participantes conhecimentos sobre as principais falhas encontradas nas análises de Prestação de Contas dos ordenadores de despesas.',
+                publico: 'Agentes do Poder Executivo e Legislativo municipais, destacadamente os ordenadores de despesas, prefeitos, vereadores, advogados, contadores e responsáveis pelo controle interno.',
+                duracao: '2h', vagas: 50, ctaColor: '#8B1A2B'
+            },
+            {
+                id: 'c4-2', name: 'Legislativo', theme: 'theme-teal', tag: 'Legislativo',
+                title: 'LEGISLATIVO MUNICIPAL', subtitle: 'Fiscalização',
+                instructor: 'Suellem Nascimento', instrRole: 'Auditora de Controle Externo (TCEPA)', instrInitials: 'SN', instrTheme: 'theme-teal',
+                desc: '',
+                publico: 'Presencial',
+                duracao: '4h', vagas: 50, ctaColor: '#10517f'
+            },
+            {
+                id: 'c4-3', name: 'Geral', theme: 'theme-rose', tag: 'Geral',
+                title: 'Implementação de Programa de Integridade na Administração Pública Municipal do Estado do Pará e Lei Anticorrupção', subtitle: 'Sistemas de Integridade',
+                instructor: 'Marcelo Batista Gonçalves', instrRole: 'Promotor de Justiça - Coordenador do CAODPP', instrInitials: 'MB', instrTheme: 'theme-rose',
+                desc: 'Implementação de Sistemas de Integridade e regulamentação da Lei Anticorrupção.',
+                publico: 'Autoridades e gestores municipais.',
+                duracao: '4h', vagas: 50, ctaColor: '#CC3366'
+            },
+            {
+                id: 'c4-4', name: 'Licitações e Contratos', theme: 'theme-blue', tag: 'Licitações e Contratos',
+                title: 'Licitações e Contratações Públicas sob a ótica do Controle Externo', subtitle: 'Visão institucional do TCMPA',
+                instructor: 'Arley Dieminger Rodrigues', instrRole: 'Auditor de Controle Externo (TCMPA)', instrInitials: 'AD', instrTheme: 'theme-blue',
+                desc: 'Apresentar a visão institucional do TCMPA quanto às licitações e contratações públicas.',
+                publico: 'Gestores Municipais, fiscais de contratos e membros das equipes de contratação.',
+                duracao: '2h', vagas: 50, ctaColor: '#004a80'
+            }
+        ]
+    },
+    {
+        id: 5, label: 'Turno 5', shortLabel: 'Qua Tarde',
+        badge: 'Qua • 03/06 • Tarde (14h–18h)', badgeBg: '#f3e8ff', badgeColor: '#7b3bb5',
+        courses: [
+            {
+                id: 'c5-1', name: 'Políticas Públicas', theme: 'theme-blue', tag: 'Políticas Públicas',
+                title: 'FUNDEB da teoria à prática: planejamento, execução e prestação de contas', subtitle: 'Planejamento do FUNDEB',
+                instructor: 'Everaldo Lino Alves', instrRole: 'Auditor de Controle Externo (TCMPA)', instrInitials: 'EL', instrTheme: 'theme-blue',
+                desc: 'Fortalecer a capacidade técnica dos gestores e servidores públicos para planejar, executar, controlar e prestar contas corretamente dos recursos do FUNDEB.',
+                publico: 'Secretários Municipais de Educação, equipes técnicas, gestores, membros de conselhos escolares, contadores.',
+                duracao: '4h', vagas: 50, ctaColor: '#004a80'
+            },
+            {
+                id: 'c5-2', name: 'Gestão e Finanças', theme: 'theme-emerald', tag: 'Gestão e Finanças',
+                title: 'RECEITAS PRÓPRIAS + SIAFIC', subtitle: 'Sistemas',
+                instructor: 'Luiz Fernando Gonçalves da Costa', instrRole: 'Auditor de Controle Externo (TCMPA)', instrInitials: 'LF', instrTheme: 'theme-emerald',
+                desc: '',
+                publico: 'Presencial',
+                duracao: '4h', vagas: 50, ctaColor: '#00a86b'
+            },
+            {
+                id: 'c5-3', name: 'Licitações e Contratos', theme: 'theme-violet', tag: 'Licitações e Contratos',
+                title: 'Aplicação prática da Lei de Licitações na fase preparatória e na gestão e fiscalização de contratos', subtitle: 'Plano de Compras Anual (PCA)',
+                instructor: 'Rosana Gama', instrRole: 'Auditora de Controle Externo (TCMPA)', instrInitials: 'RG', instrTheme: 'theme-violet',
+                desc: 'Capacitar os participantes em relação à elaboração do Plano de Compras Anual (PCA).',
+                publico: 'Servidores públicos que atuam na área de planejamento, administração, compras, licitações, contratos.',
+                duracao: '4h', vagas: 50, ctaColor: '#9b51e0'
+            }
+        ]
+    },
+    {
+        id: 6, label: 'Turno 6', shortLabel: 'Qui Manhã',
+        badge: 'Qui • 04/06 • Manhã (8h30–12h30)', badgeBg: '#fff3e0', badgeColor: '#e65100',
+        courses: [
+            {
+                id: 'c6-1', name: 'Licitações e Contratos', theme: 'theme-amber', tag: 'Licitações e Contratos',
+                title: 'Aplicação prática da Lei de Licitações na fase preparatória e na gestão e fiscalização de contratos', subtitle: 'Plano de Compras Anual (PCA)',
+                instructor: 'Rosana Gama', instrRole: 'Auditora de Controle Externo (TCMPA)', instrInitials: 'RG', instrTheme: 'theme-amber',
+                desc: 'Capacitar os participantes em relação à elaboração do Plano de Compras Anual (PCA).',
+                publico: 'Servidores públicos que atuam na área de planejamento, administração, compras, licitações, contratos.',
+                duracao: '16h', vagas: 50, ctaColor: '#8B1A2B'
+            },
+            {
+                id: 'c6-2', name: 'Políticas Públicas', theme: 'theme-teal', tag: 'Políticas Públicas',
+                title: 'Captação de Recursos na Saúde: do Planejamento à Execução sem Apontamentos do Controle Externo', subtitle: 'Planejamento em saúde',
+                instructor: 'Silvia Miralha de Araújo', instrRole: 'Auditora de Controle Externo (TCMPA)', instrInitials: 'SM', instrTheme: 'theme-teal',
+                desc: 'Fortalecer a capacidade dos jurisdicionados para identificar, planejar, captar e executar recursos na área da saúde.',
+                publico: 'Prefeitos(as), Secretários(as) Municipais de Saúde, coordenadores, técnicos das áreas de planejamento.',
+                duracao: '4h', vagas: 50, ctaColor: '#10517f'
+            },
+            {
+                id: 'c6-3', name: 'Gestão e Finanças', theme: 'theme-rose', tag: 'Gestão e Finanças',
+                title: 'Regularidade Funcional do Servidor Público: ingresso, acúmulo de vínculos e concessão de diárias', subtitle: 'Ingresso no serviço público',
+                instructor: 'Maria Isis da Silva Campos', instrRole: 'Técnica de Controle Externo (TCMPA)', instrInitials: 'MI', instrTheme: 'theme-rose',
+                desc: 'Prover aos órgãos e entidades sob jurisdição do TCMPA informações centrais sobre regularidade do servidor público.',
+                publico: 'Gestores municipais; Servidores do controle interno; Servidores atuantes na gestão de pessoas.',
+                duracao: '4h', vagas: 50, ctaColor: '#CC3366'
+            }
+        ]
+    },
+    {
+        id: 7, label: 'Turno 7', shortLabel: 'Qui Tarde',
+        badge: 'Qui • 04/06 • Tarde (14h–18h)', badgeBg: '#e0f2fe', badgeColor: '#0369a1',
+        courses: [
+            {
+                id: 'c7-1', name: 'Políticas Públicas', theme: 'theme-blue', tag: 'Políticas Públicas',
+                title: 'Recursos da educação da teoria à prática: Salário-Educação, PNAE, PNATE e PDDE', subtitle: 'Salário-Educação e PNAE',
+                instructor: 'Everaldo Lino Alves', instrRole: 'Auditor de Controle Externo (TCMPA)', instrInitials: 'EL', instrTheme: 'theme-blue',
+                desc: 'Fortalecer a capacidade técnica dos gestores e servidores públicos para planejar, executar, controlar e prestar contas dos recursos do Salário-Educação, PNAE, PNATE e PDDE.',
+                publico: 'Secretários Municipais de Educação, equipes técnicas, gestores, membros de conselhos escolares, contadores.',
+                duracao: '4h', vagas: 50, ctaColor: '#004a80'
+            },
+            {
+                id: 'c7-2', name: 'Licitações e Contratos', theme: 'theme-emerald', tag: 'Licitações e Contratos',
+                title: 'Aplicação prática da Lei de Licitações na fase preparatória e na gestão e fiscalização de contratos', subtitle: 'Plano de Compras Anual (PCA)',
+                instructor: 'Rosana Gama', instrRole: 'Auditora de Controle Externo (TCMPA)', instrInitials: 'RG', instrTheme: 'theme-emerald',
+                desc: 'Capacitar os participantes em relação à elaboração do Plano de Compras Anual (PCA).',
+                publico: 'Servidores públicos que atuam na área de planejamento, compras, licitações, contratos.',
+                duracao: '4h', vagas: 50, ctaColor: '#00a86b'
+            },
+            {
+                id: 'c7-3', name: 'Políticas Públicas', theme: 'theme-violet', tag: 'Políticas Públicas',
+                title: 'Mudanças Climáticas na Prática Municipal: como adaptar, mitigar e agir', subtitle: 'Mitigação e adaptação climática',
+                instructor: 'Iranildo Ferreira Pereira', instrRole: 'Auditor de Controle Externo (TCMPA)', instrInitials: 'IF', instrTheme: 'theme-violet',
+                desc: 'Capacitar servidores municipais para compreender e aplicar conceitos e estratégias de mitigação e adaptação às mudanças climáticas na gestão local.',
+                publico: 'Servidores públicos municipais de áreas estratégicas.',
+                duracao: '4h', vagas: 50, ctaColor: '#9b51e0'
+            }
+        ]
+    },
+    {
+        id: 8, label: 'Turno 8', shortLabel: 'Sex Manhã',
+        badge: 'Sex • 05/06 • Manhã (8h30–12h30)', badgeBg: '#fef3c7', badgeColor: '#92400e',
+        courses: [
+            {
+                id: 'c8-1', name: 'Licitações e Contratos', theme: 'theme-amber', tag: 'Licitações e Contratos',
+                title: 'Aplicação prática da Lei de Licitações na fase preparatória e na gestão e fiscalização de contratos', subtitle: 'Plano de Compras Anual (PCA)',
+                instructor: 'Rosana Gama', instrRole: 'Auditora de Controle Externo (TCMPA)', instrInitials: 'RG', instrTheme: 'theme-amber',
+                desc: 'Capacitar os participantes em relação à elaboração do Plano de Compras Anual (PCA).',
+                publico: 'Servidores públicos que atuam na área de planejamento, compras, licitações, contratos.',
+                duracao: '4h', vagas: 50, ctaColor: '#8B1A2B'
             }
         ]
     }
@@ -1272,6 +1385,11 @@ const GFORMS = {
         turno3:    'entry.632286599',
         turno4:    'entry.1768044873',
         turno5:    'entry.1531634535',
+        turno6:    'entry.1111358019',
+        turno7:    'entry.1252968113',
+        turno8:    'entry.1480293428',
+        turno9:    'entry.1263760165',
+        turno10:   'entry.1211875394',
         total:     'entry.419920169'
     }
 };
@@ -1290,13 +1408,14 @@ function enviarGoogleForms() {
 
     let totalCursos = 0;
     TURNOS.forEach(t => {
+        const fieldKey = F['turno' + t.id];
+        if (!fieldKey) return; // campo não existe no Google Forms
         const sel = selections[t.id];
         if (sel) {
-            const info = sel.curso + ' (' + sel.instrutor + ')';
-            fd.append(F['turno' + t.id], info);
+            fd.append(fieldKey, sel.curso + ' (' + sel.instrutor + ')');
             totalCursos++;
         } else {
-            fd.append(F['turno' + t.id], '\u2014');
+            fd.append(fieldKey, '\u2014');
         }
     });
     fd.append(F.total, String(totalCursos));
@@ -1326,19 +1445,32 @@ const ICO = {
 };
 
 /* ═══════════════════════════════════════════
-   STATE — Dados primeiro, depois turnos
+   STATE — Dinâmico, calculado a partir de TURNOS
    Step 1 = Dados Pessoais
-   Steps 2-6 = Turnos 1-5
-   Step 7 = Confirmação
+   Steps 2..N+1 = Turnos 1..N
+   Step N+2 = Confirmação
 ═══════════════════════════════════════════ */
 let currentStep = 1;
-const selections = { 1: null, 2: null, 3: null, 4: null, 5: null };
-const STEPS = [
-    { id: 1, label: ICO.user },
-    { id: 2, label: 'T1' }, { id: 3, label: 'T2' }, { id: 4, label: 'T3' },
-    { id: 5, label: 'T4' }, { id: 6, label: 'T5' },
-    { id: 7, label: ICO.check }
-];
+let selections = {};
+let STEPS = [];
+let progressLabels = [];
+let successShown = false;
+const DEFAULT_TURNOS = JSON.parse(JSON.stringify(TURNOS));
+
+function getConfirmStep() { return TURNOS.length + 2; }
+function getLastTurnoStep() { return TURNOS.length + 1; }
+function isTurnoStep(stepId) { return stepId >= 2 && stepId <= TURNOS.length + 1; }
+
+function initState() {
+    selections = {};
+    TURNOS.forEach(t => { selections[t.id] = null; });
+    STEPS = [{ id: 1, label: ICO.user }];
+    TURNOS.forEach((t, i) => { STEPS.push({ id: i + 2, label: 'T' + (i + 1) }); });
+    STEPS.push({ id: TURNOS.length + 2, label: ICO.check });
+    progressLabels = ['Dados'];
+    TURNOS.forEach(t => progressLabels.push(t.shortLabel));
+    progressLabels.push('Confirmar');
+}
 
 /* ═══════════════════════════════════════════
    TOAST
@@ -1357,12 +1489,11 @@ function showToast(msg, type = '') {
 ═══════════════════════════════════════════ */
 function buildProgress() {
     const c = document.getElementById('progressInner');
-    const labels = ['Dados', 'Seg AM', 'Seg PM', 'Ter AM', 'Ter PM', 'Qua AM', 'Confirmar'];
     let html = '';
     STEPS.forEach((s, i) => {
         html += `<div class="prog-step ${i === 0 ? 'active' : ''}" data-step="${s.id}" onclick="goToStep(${s.id})">
             <div class="prog-circle" id="pc-${s.id}" data-label="${typeof s.label === 'string' && !s.label.includes('<') ? s.label : ''}">${s.label}</div>
-            <div class="prog-label">${labels[i]}</div>
+            <div class="prog-label">${progressLabels[i] || ''}</div>
         </div>`;
         if (i < STEPS.length - 1) html += `<div class="prog-line" id="pl-${s.id}"></div>`;
     });
@@ -1379,10 +1510,10 @@ function buildPanels() {
     // Step 1 — Form (FIRST!)
     html += buildFormPanel();
 
-    // Turno panels (steps 2-6, mapped to turno ids 1-5)
-    TURNOS.forEach(turno => {
-        const stepNum = turno.id + 1; // turno 1 = step 2, turno 5 = step 6
-        const isLast = turno.id === 5;
+    // Turno panels — dynamic step numbers
+    TURNOS.forEach((turno, ti) => {
+        const stepNum = ti + 2;
+        const isLast = ti === TURNOS.length - 1;
         html += `<div class="step-panel" id="step-${stepNum}">
             <div class="turno-info">
                 <div class="turno-badge" style="background:${turno.badgeBg};color:${turno.badgeColor}">${turno.badge}</div>
@@ -1396,7 +1527,7 @@ function buildPanels() {
                 ${turno.courses.map((c, idx) => buildCard(turno.id, c, idx === 0)).join('')}
             </div>
             <div class="nav-stack">
-                <button class="btn ${isLast ? 'btn-success' : 'btn-primary'}" onclick="goToStep(${isLast ? 7 : stepNum + 1})">${isLast ? 'Revisar Inscrição →' : 'Próximo →'}</button>
+                <button class="btn ${isLast ? 'btn-success' : 'btn-primary'}" onclick="goToStep(${isLast ? getConfirmStep() : stepNum + 1})">${isLast ? 'Revisar Inscrição →' : 'Próximo →'}</button>
                 <button class="btn btn-ghost" onclick="goToStep(${stepNum - 1})">← Voltar</button>
                 ${!isLast ? `<button class="btn btn-ghost" onclick="goToStep(${stepNum + 1})">Pular Turno →</button>` : ''}
             </div>
@@ -1509,7 +1640,7 @@ function buildFormPanel() {
 }
 
 function buildConfirmPanel() {
-    return `<div class="step-panel" id="step-7">
+    return `<div class="step-panel" id="step-${getConfirmStep()}">
         <div class="confirm-wrapper">
             <div class="turno-header">
                 <div style="width:56px;height:56px;background:#fce4ea;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:24px;color:#8B1A2B">${ICO.clipboard}</div>
@@ -1533,7 +1664,7 @@ function buildConfirmPanel() {
                 <span>Declaro que as informações prestadas são verdadeiras e me comprometo a participar dos cursos selecionados, ciente de que a ausência sem justificativa poderá impactar futuras inscrições.</span>
             </label>
             <div class="nav-row">
-                <button class="btn btn-ghost" onclick="goToStep(6)">← Voltar</button>
+                <button class="btn btn-ghost" onclick="goToStep(${getLastTurnoStep()})">← Voltar</button>
                 <button class="btn btn-success" id="btn-finalizar" onclick="finalizar()" style="font-size:15px;padding:12px 28px">${ICO.check} Confirmar Inscrição</button>
             </div>
         </div>
@@ -1572,8 +1703,8 @@ function goToStep(step) {
         if (!validateForm()) return;
     }
 
-    // Validação Step 7 → precisa de pelo menos 1 curso + form válido
-    if (step === 7) {
+    // Validação confirm step → precisa de pelo menos 1 curso + form válido
+    if (step === getConfirmStep()) {
         if (getCount() === 0) { showToast('Selecione pelo menos 1 curso!', 'warn'); return; }
         if (!validateForm()) return;
         fillConfirmation();
@@ -1585,11 +1716,10 @@ function goToStep(step) {
     if (panel) panel.classList.add('active');
 
     updateProgress(step);
-    // Steps 2-6 are turnos 1-5
-    if (step >= 2 && step <= 6) restoreSelection(step - 1);
+    if (isTurnoStep(step)) restoreSelection(step - 1);
 
-    // Hide counter on form(step1)/confirm(step7)/success
-    document.getElementById('floatCounter').style.display = (step === 1 || step >= 7 || step === 'success') ? 'none' : '';
+    // Hide counter on form(step1)/confirm/success
+    document.getElementById('floatCounter').style.display = (step === 1 || step >= getConfirmStep() || step === 'success') ? 'none' : '';
 
     // Steps 2-7: hide header, show only progress bar + content
     const hideHeader = step >= 2 && step !== 'success';
@@ -1618,18 +1748,16 @@ function updateProgress(step) {
         if (s.id == step) {
             parent.classList.add('active');
         } else if (s.id < step) {
-            // Steps 2-6 are turnos — show skipped if no course selected
-            const isTurnoStep = s.id >= 2 && s.id <= 6;
-            if (isTurnoStep && !selections[s.id - 1]) {
+            const turno = isTurnoStep(s.id);
+            if (turno && !selections[s.id - 1]) {
                 parent.classList.add('skipped');
                 circle.innerHTML = '−';
             } else {
                 parent.classList.add('completed');
-                if (isTurnoStep) circle.innerHTML = ICO.check;
+                if (turno) circle.innerHTML = ICO.check;
             }
         } else {
-            // Reset label for future turno steps
-            if (s.id >= 2 && s.id <= 6) circle.innerHTML = STEPS[i].label;
+            if (isTurnoStep(s.id)) circle.innerHTML = STEPS[i].label;
         }
 
         if (line) line.className = 'prog-line' + (s.id < step ? ' done' : '');
@@ -1874,7 +2002,6 @@ function finalizar() {
     }, 5000);
 }
 
-let successShown = false;
 function showSuccess() {
     if (successShown) return;
     successShown = true;
@@ -1925,7 +2052,7 @@ function showSuccess() {
    COUNTDOWN TIMER
 ═══════════════════════════════════════════ */
 function initCountdown() {
-    const target = new Date('2026-03-15T08:30:00-03:00'); // 15 de março 2026, 8h30 Belém
+    const target = new Date('2026-06-01T14:00:00-03:00'); // 01 de junho 2026, 14h Bragança
     const el = document.getElementById('countdown');
     if (!el) return;
 
@@ -1958,29 +2085,32 @@ function initCountdown() {
     setInterval(update, 1000);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    buildProgress();
-    buildPanels();
-    initCountdown();
-
-    // CPF mask
-    document.getElementById('f-cpf').addEventListener('input', function(e) {
+function bindInputMasks() {
+    const cpf = document.getElementById('f-cpf');
+    const tel = document.getElementById('f-tel');
+    if (cpf) cpf.addEventListener('input', function() {
         let v = this.value.replace(/\D/g, '').slice(0, 11);
         v = v.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2');
         this.value = v;
     });
-
-    // Phone mask
-    document.getElementById('f-tel').addEventListener('input', function(e) {
+    if (tel) tel.addEventListener('input', function() {
         let v = this.value.replace(/\D/g, '').slice(0, 11);
         v = v.replace(/^(\d{2})(\d)/g, '($1) $2').replace(/(\d{5})(\d)/, '$1-$2');
         this.value = v;
     });
-
-    // Remove error on focus
     document.querySelectorAll('.form-input').forEach(el => {
         el.addEventListener('focus', () => el.classList.remove('error'));
     });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadTurnosFromStorage();
+    initState();
+    buildProgress();
+    buildPanels();
+    bindInputMasks();
+    initCountdown();
+    initAdmin();
 });
 
 /* ═══════════════════════════════════════════
@@ -2026,6 +2156,267 @@ toggleCourse = function(turnoId, courseId, name, instructor, duracao) {
         tab.classList.toggle('tab-selected', selections[turnoId] && selections[turnoId].courseId === cId);
     });
 };
+
+/* ═══════════════════════════════════════════
+   REBUILD UI (after importing new data)
+═══════════════════════════════════════════ */
+function rebuildUI() {
+    currentStep = 1;
+    successShown = false;
+    initState();
+    document.getElementById('counterMax').textContent = TURNOS.length;
+    buildProgress();
+    buildPanels();
+    bindInputMasks();
+    updateHeroStats();
+    goToStep(1);
+    updateCounter();
+}
+
+/* ═══════════════════════════════════════════
+   LOCALSTORAGE PERSISTENCE
+═══════════════════════════════════════════ */
+const STORAGE_KEY = 'vtabs_turnos_data';
+
+function saveTurnosToStorage() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(TURNOS)); } catch(e) {}
+}
+
+function loadTurnosFromStorage() {
+    try {
+        const d = localStorage.getItem(STORAGE_KEY);
+        if (d) { const p = JSON.parse(d); if (Array.isArray(p) && p.length > 0) { TURNOS = p; return true; } }
+    } catch(e) {}
+    return false;
+}
+
+function clearStoredTurnos() { localStorage.removeItem(STORAGE_KEY); }
+
+/* ═══════════════════════════════════════════
+   NORMALIZER — simplified/full JSON → TURNOS format
+═══════════════════════════════════════════ */
+const THEME_CYCLE = ['theme-blue','theme-emerald','theme-violet','theme-amber','theme-teal','theme-rose'];
+const BADGE_PRESETS = [
+    { bg:'#e0effa', color:'#004a80' }, { bg:'#fce4ea', color:'#8B1A2B' },
+    { bg:'#fce4ee', color:'#991f4d' }, { bg:'#e8f5ec', color:'#006b44' },
+    { bg:'#f3e8ff', color:'#7b3bb5' }, { bg:'#fff3e0', color:'#e65100' },
+    { bg:'#e0f2fe', color:'#0369a1' }, { bg:'#fef3c7', color:'#92400e' },
+    { bg:'#ede9fe', color:'#6d28d9' }, { bg:'#fce7f3', color:'#be185d' }
+];
+const CTA_MAP = { 'theme-blue':'#004a80','theme-emerald':'#00a86b','theme-violet':'#9b51e0','theme-amber':'#8B1A2B','theme-teal':'#10517f','theme-rose':'#CC3366' };
+
+function getInitials(name) {
+    return (name || 'AD').split(/\s+/).filter(w => w.length > 2 || (w[0] && w[0] === w[0].toUpperCase()))
+        .map(w => w[0].toUpperCase()).slice(0,2).join('') || 'AD';
+}
+
+function normalizeTurnos(input) {
+    let rawTurnos;
+    if (Array.isArray(input)) {
+        rawTurnos = input; // full format
+    } else if (input && input.turnos && Array.isArray(input.turnos)) {
+        rawTurnos = input.turnos; // simplified format
+    } else {
+        throw new Error('Formato não reconhecido. Use array de turnos ou { turnos: [...] }');
+    }
+    return rawTurnos.map((t, ti) => {
+        const bp = BADGE_PRESETS[ti % BADGE_PRESETS.length];
+        return {
+            id: t.id || ti + 1,
+            label: t.label || 'Turno ' + (ti + 1),
+            shortLabel: t.shortLabel || t.label || 'Turno ' + (ti + 1),
+            badge: t.badge || t.shortLabel || 'Turno ' + (ti + 1),
+            badgeBg: t.badgeBg || bp.bg,
+            badgeColor: t.badgeColor || bp.color,
+            courses: (t.courses || []).map((c, ci) => {
+                const theme = c.theme || THEME_CYCLE[(ti * 3 + ci) % THEME_CYCLE.length];
+                return {
+                    id: c.id || 'c' + (ti+1) + '-' + (ci+1),
+                    name: c.name || c.titulo || 'Curso ' + (ci+1),
+                    theme: theme,
+                    tag: c.tag || '',
+                    title: c.title || c.titulo || c.name || '',
+                    subtitle: c.subtitle || c.subtitulo || '',
+                    instructor: c.instructor || c.instrutor || 'A definir',
+                    instrRole: c.instrRole || c.cargo_instrutor || '',
+                    instrInitials: c.instrInitials || getInitials(c.instructor || c.instrutor || ''),
+                    instrTheme: c.instrTheme || theme,
+                    desc: c.desc || c.descricao || '',
+                    publico: c.publico || '',
+                    duracao: c.duracao || '4h',
+                    vagas: parseInt(c.vagas) || 50,
+                    ctaColor: c.ctaColor || CTA_MAP[theme] || '#004a80'
+                };
+            })
+        };
+    });
+}
+
+/* ═══════════════════════════════════════════
+   CSV PARSER
+═══════════════════════════════════════════ */
+function parseCSVLine(line) {
+    const r = []; let cur = '', inQ = false;
+    for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (inQ) {
+            if (ch === '"' && line[i+1] === '"') { cur += '"'; i++; }
+            else if (ch === '"') inQ = false;
+            else cur += ch;
+        } else {
+            if (ch === '"') inQ = true;
+            else if (ch === ',' || ch === ';') { r.push(cur); cur = ''; }
+            else cur += ch;
+        }
+    }
+    r.push(cur);
+    return r;
+}
+
+function parseCSV(text) {
+    const lines = text.split(/\r?\n/).filter(l => l.trim());
+    if (lines.length < 2) throw new Error('CSV deve ter pelo menos cabeçalho + 1 linha de dados');
+    const headers = parseCSVLine(lines[0]).map(h => h.trim().toLowerCase());
+    const rows = lines.slice(1).map(l => {
+        const vals = parseCSVLine(l);
+        const obj = {};
+        headers.forEach((h, i) => { obj[h] = (vals[i] || '').trim(); });
+        return obj;
+    });
+
+    const turnoMap = new Map();
+    rows.forEach(row => {
+        const key = row.turno || row.turno_shortlabel || row.turno_label || 'Turno';
+        if (!turnoMap.has(key)) {
+            turnoMap.set(key, { shortLabel: key, badge: row.turno_badge || row.badge || key, courses: [] });
+        }
+        if (row.name || row.nome || row.titulo) {
+            turnoMap.get(key).courses.push({
+                name: row.name || row.nome || row.titulo || '',
+                tag: row.tag || '',
+                title: row.title || row.titulo || row.name || row.nome || '',
+                subtitle: row.subtitle || row.subtitulo || '',
+                instructor: row.instructor || row.instrutor || '',
+                instrRole: row.instrrole || row.cargo_instrutor || row.cargo || '',
+                desc: row.desc || row.descricao || '',
+                publico: row.publico || '',
+                duracao: row.duracao || '4h',
+                vagas: row.vagas || '50'
+            });
+        }
+    });
+
+    return { turnos: Array.from(turnoMap.values()) };
+}
+
+/* ═══════════════════════════════════════════
+   VALIDATION
+═══════════════════════════════════════════ */
+function validateTurnos(turnos) {
+    const e = [];
+    if (!Array.isArray(turnos) || turnos.length === 0) { e.push('Nenhum turno encontrado.'); return e; }
+    if (turnos.length > 10) e.push('Máximo de 10 turnos.');
+    turnos.forEach((t, ti) => {
+        if (!t.courses || t.courses.length === 0) e.push('Turno ' + (ti+1) + ' sem cursos.');
+        else if (t.courses.length > 6) e.push('Turno ' + (ti+1) + ': máximo 6 cursos.');
+        else t.courses.forEach((c, ci) => {
+            if (!c.name || !c.name.trim()) e.push('Turno ' + (ti+1) + ', Curso ' + (ci+1) + ': campo "name" obrigatório.');
+        });
+    });
+    return e;
+}
+
+/* ═══════════════════════════════════════════
+   ADMIN — Init, Upload, Export, Reset
+═══════════════════════════════════════════ */
+function initAdmin() {
+    if (!new URLSearchParams(window.location.search).has('admin')) return;
+    document.getElementById('adminPanel').classList.add('visible');
+    const dz = document.getElementById('adminDropZone');
+    const fi = document.getElementById('adminFileInput');
+    fi.addEventListener('change', e => { if (e.target.files.length) handleUploadedFile(e.target.files[0]); });
+    dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragover'); });
+    dz.addEventListener('dragleave', () => dz.classList.remove('dragover'));
+    dz.addEventListener('drop', e => {
+        e.preventDefault(); dz.classList.remove('dragover');
+        if (e.dataTransfer.files.length) handleUploadedFile(e.dataTransfer.files[0]);
+    });
+}
+
+function handleUploadedFile(file) {
+    const st = document.getElementById('adminStatus');
+    const ext = file.name.split('.').pop().toLowerCase();
+    if (!['json','csv'].includes(ext)) { st.innerHTML = '<div class="admin-status error">Use arquivo .json ou .csv</div>'; return; }
+    const reader = new FileReader();
+    reader.onload = e => {
+        try {
+            let parsed;
+            if (ext === 'csv') parsed = parseCSV(e.target.result);
+            else parsed = JSON.parse(e.target.result);
+            const normalized = normalizeTurnos(parsed);
+            const errors = validateTurnos(normalized);
+            if (errors.length) { st.innerHTML = '<div class="admin-status error">' + errors.join('<br>') + '</div>'; return; }
+            TURNOS = normalized;
+            saveTurnosToStorage();
+            rebuildUI();
+            const total = TURNOS.reduce((s, t) => s + t.courses.length, 0);
+            st.innerHTML = '<div class="admin-status success">Atualizado! ' + TURNOS.length + ' turnos, ' + total + ' cursos.</div>';
+            showToast('Cursos atualizados!', 'success');
+        } catch(err) { st.innerHTML = '<div class="admin-status error">Erro: ' + err.message + '</div>'; }
+    };
+    reader.readAsText(file, 'UTF-8');
+}
+
+function exportCurrentJSON() {
+    const blob = new Blob([JSON.stringify(TURNOS, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'escola-turnos.json'; a.click(); URL.revokeObjectURL(a.href);
+    showToast('JSON exportado!', 'success');
+}
+
+function resetToDefaults() {
+    if (!confirm('Restaurar cursos originais? Dados importados serão perdidos.')) return;
+    TURNOS = JSON.parse(JSON.stringify(DEFAULT_TURNOS));
+    clearStoredTurnos();
+    rebuildUI();
+    const st = document.getElementById('adminStatus');
+    if (st) st.innerHTML = '<div class="admin-status success">Restaurado para os cursos padrão.</div>';
+    showToast('Cursos restaurados!', 'success');
+}
+
+function downloadCSVTemplate() {
+    const h = 'turno,turno_badge,name,tag,title,subtitle,instructor,instrRole,desc,publico,duracao,vagas';
+    let rows = '';
+    TURNOS.forEach(t => {
+        t.courses.forEach(c => {
+            rows += '\n' + [
+                '"' + t.shortLabel + '"', '"' + t.badge + '"',
+                '"' + c.name + '"', '"' + (c.tag||'') + '"', '"' + c.title + '"', '"' + (c.subtitle||'') + '"',
+                '"' + c.instructor + '"', '"' + (c.instrRole||'') + '"',
+                '"' + (c.desc||'').replace(/"/g,'""') + '"', '"' + (c.publico||'').replace(/"/g,'""') + '"',
+                c.duracao, c.vagas
+            ].join(',');
+        });
+    });
+    const blob = new Blob(['\uFEFF' + h + rows], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'modelo-cursos.csv'; a.click(); URL.revokeObjectURL(a.href);
+    showToast('Modelo CSV baixado!', 'success');
+}
+
+/* ═══════════════════════════════════════════
+   UPDATE HERO STATS (after data change)
+═══════════════════════════════════════════ */
+function updateHeroStats() {
+    const totalCourses = TURNOS.reduce((s, t) => s + t.courses.length, 0);
+    const totalHours = TURNOS.reduce((s, t) => s + t.courses.reduce((s2, c) => s2 + (parseInt(c.duracao) || 4), 0), 0);
+    const stats = document.querySelectorAll('.stat-item .stat-num');
+    if (stats.length >= 3) {
+        stats[0].textContent = totalCourses;
+        stats[1].textContent = TURNOS.length;
+        stats[2].textContent = totalHours + 'h';
+    }
+}
 </script>
 </body>
 </html>
