@@ -158,6 +158,60 @@
         }
 
         /* ═══════════════════════════════════════════
+           BENEFITS SECTION
+        ═══════════════════════════════════════════ */
+        .benefits {
+            background: #fff;
+            padding: 40px 16px;
+            position: relative;
+        }
+        .benefits-inner {
+            max-width: 900px; margin: 0 auto;
+        }
+        .benefits-title {
+            font-family: var(--font-display); font-size: 20px; color: var(--slate-800);
+            text-align: center; margin-bottom: 8px;
+        }
+        .benefits-sub {
+            text-align: center; color: var(--slate-500); font-size: 13px;
+            margin-bottom: 28px;
+        }
+        .benefits-grid {
+            display: grid; grid-template-columns: 1fr; gap: 16px;
+        }
+        .benefit-card {
+            display: flex; align-items: flex-start; gap: 14px;
+            padding: 16px; border-radius: var(--radius-lg);
+            background: var(--slate-50); border: 1px solid var(--slate-200);
+            transition: all var(--transition-base);
+        }
+        .benefit-icon {
+            width: 40px; height: 40px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; color: #fff;
+        }
+        .benefit-icon .icon { width: 20px; height: 20px; }
+        .benefit-icon .icon svg { stroke: #fff; }
+        .benefit-text h3 {
+            font-size: 14px; font-weight: 700; color: var(--slate-800);
+            margin-bottom: 4px; line-height: 1.3;
+        }
+        .benefit-text p {
+            font-size: 12.5px; color: var(--slate-500); line-height: 1.5;
+        }
+        @media (min-width: 640px) {
+            .benefits { padding: 56px 24px; }
+            .benefits-title { font-size: 26px; margin-bottom: 10px; }
+            .benefits-sub { font-size: 15px; margin-bottom: 36px; }
+            .benefits-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+            .benefit-card { padding: 20px; }
+            .benefit-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-card); }
+            .benefit-icon { width: 44px; height: 44px; }
+            .benefit-text h3 { font-size: 15px; }
+            .benefit-text p { font-size: 13px; }
+        }
+
+        /* ═══════════════════════════════════════════
            PROGRESS BAR — Mobile base (compact circles, no labels)
         ═══════════════════════════════════════════ */
         .progress-bar {
@@ -583,12 +637,61 @@
         .terms-label input { width: 22px; height: 22px; margin-top: 1px; accent-color: var(--emerald-500); flex-shrink: 0; }
         .terms-label span { font-size: 12.5px; color: var(--slate-600); line-height: 1.5; }
 
+        /* Inline edit buttons */
+        .confirm-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+        .confirm-section-header .confirm-section-title { margin-bottom: 0; }
+        .btn-edit-section {
+            font-size: 11px; font-weight: 600; color: var(--sky-500); background: none; border: none;
+            cursor: pointer; display: flex; align-items: center; gap: 4px; padding: 4px 8px;
+            border-radius: 6px; transition: all var(--transition-base);
+        }
+        .btn-edit-section:active { background: var(--slate-100); }
+        .btn-edit-section .icon { width: 13px; height: 13px; }
+        .btn-edit-section .icon svg { stroke: var(--sky-500); }
+
+        /* Editable data row */
+        .confirm-data-row { position: relative; }
+        .confirm-data-row.editing .value { display: none; }
+        .confirm-data-row .edit-input {
+            display: none; font-size: 13px; font-weight: 500; color: var(--slate-800);
+            border: 1.5px solid var(--sky-400); border-radius: 6px; padding: 4px 8px;
+            background: #fff; outline: none; width: 100%; font-family: inherit;
+        }
+        .confirm-data-row.editing .edit-input { display: block; }
+        .confirm-data-row .edit-input:focus { box-shadow: 0 0 0 3px rgba(6,147,227,.15); }
+
+        /* Editable course row */
+        .confirm-course-row { position: relative; cursor: default; }
+        .confirm-course-row .btn-change-course {
+            font-size: 11px; font-weight: 600; color: var(--sky-500); background: none; border: none;
+            cursor: pointer; padding: 2px 6px; border-radius: 4px; white-space: nowrap;
+            transition: all var(--transition-base); display: none;
+        }
+        .confirm-course-row .btn-change-course:active { background: rgba(6,147,227,.1); }
+        .editing-courses .confirm-course-row .btn-change-course { display: inline; }
+        .editing-courses .confirm-course-row .name { flex: 1; }
+
+        /* Editable select for course (inline dropdown) */
+        .confirm-course-row .course-select {
+            display: none; font-size: 12px; font-weight: 500; color: var(--slate-800);
+            border: 1.5px solid var(--sky-400); border-radius: 6px; padding: 4px 6px;
+            background: #fff; outline: none; flex: 1; font-family: inherit; max-width: 200px;
+        }
+        .confirm-course-row .course-select:focus { box-shadow: 0 0 0 3px rgba(6,147,227,.15); }
+        .confirm-course-row.picking .name { display: none; }
+        .confirm-course-row.picking .btn-change-course { display: none !important; }
+        .confirm-course-row.picking .course-select { display: block; }
+
         @media (min-width: 640px) {
             .confirm-wrapper { max-width: 560px; }
             .confirm-card { padding: 28px; margin-bottom: 20px; border-radius: var(--radius-xl); }
             .confirm-section-title { font-size: 15px; margin-bottom: 12px; }
+            .confirm-section-header .confirm-section-title { margin-bottom: 0; }
             .confirm-course-row { font-size: 13px; padding: 8px 12px; }
             .confirm-data-row .label { min-width: 80px; }
+            .btn-edit-section { font-size: 12px; }
+            .btn-edit-section:hover { background: var(--slate-100); }
+            .confirm-course-row .btn-change-course:hover { background: rgba(6,147,227,.1); }
             .terms-label:hover { border-color: var(--slate-300); }
             .terms-label input { width: 20px; height: 20px; }
             .terms-label span { font-size: 13px; }
@@ -655,6 +758,7 @@
         .toast.show { opacity: 1; transform: translateY(0); }
         .toast.warn { background: #b45309; }
         .toast.error { background: #CC3366; }
+        .toast.success { background: #059669; }
 
         @media (min-width: 640px) {
             .toast {
@@ -695,6 +799,68 @@
         }
         .btn-hero:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(139,26,43,.4); }
         .btn-hero:active { transform: scale(.98); }
+
+        /* ═══════════════════════════════════════════
+           COUNTDOWN
+        ═══════════════════════════════════════════ */
+        .countdown {
+            display: flex; justify-content: center; gap: 10px;
+            margin-top: 20px; margin-bottom: 4px;
+        }
+        .countdown-item {
+            display: flex; flex-direction: column; align-items: center;
+            background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.1);
+            border-radius: 12px; padding: 10px 14px; min-width: 60px;
+        }
+        .countdown-num {
+            font-family: var(--font-display); font-size: 24px; font-weight: 800;
+            color: #fff; line-height: 1;
+        }
+        .countdown-label {
+            font-size: 9px; text-transform: uppercase; letter-spacing: .08em;
+            color: rgba(255,255,255,.5); margin-top: 4px; font-weight: 600;
+        }
+        .countdown-sep {
+            font-size: 22px; font-weight: 700; color: rgba(255,255,255,.3);
+            align-self: center; padding-bottom: 12px;
+        }
+        .countdown-expired {
+            color: var(--amber-400); font-weight: 700; font-size: 14px;
+            margin-top: 20px; margin-bottom: 4px;
+        }
+        @media (min-width: 640px) {
+            .countdown { gap: 12px; }
+            .countdown-item { padding: 12px 18px; min-width: 72px; }
+            .countdown-num { font-size: 30px; }
+            .countdown-label { font-size: 10px; }
+        }
+
+        /* ═══════════════════════════════════════════
+           BENEFITS — Stats highlight
+        ═══════════════════════════════════════════ */
+        .benefits-stats {
+            display: flex; justify-content: center; gap: 24px;
+            margin-bottom: 28px; flex-wrap: wrap;
+        }
+        .stat-item {
+            text-align: center; padding: 0 8px;
+        }
+        .stat-num {
+            font-family: var(--font-display); font-size: 32px; font-weight: 800;
+            color: var(--navy-800); line-height: 1;
+        }
+        .stat-label {
+            font-size: 11px; color: var(--slate-500); font-weight: 600;
+            text-transform: uppercase; letter-spacing: .04em; margin-top: 4px;
+        }
+        .stat-divider {
+            width: 1px; background: var(--slate-200); align-self: stretch;
+        }
+        @media (min-width: 640px) {
+            .benefits-stats { gap: 40px; margin-bottom: 36px; }
+            .stat-num { font-size: 40px; }
+            .stat-label { font-size: 12px; }
+        }
 
         /* ═══════════════════════════════════════════
            FOOTER
@@ -779,7 +945,77 @@
             <div class="hero-tag"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 5 Turnos disponíveis</div>
             <div class="hero-tag highlight"><span class="icon"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span> Mínimo 1 curso</div>
         </div>
+        <div class="countdown" id="countdown"></div>
         <button class="btn btn-hero" onclick="document.getElementById('step-1').scrollIntoView({behavior:'smooth'})">Iniciar Inscrição <span class="icon"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></button>
+    </div>
+</section>
+
+<!-- ════════ BENEFITS ════════ -->
+<section class="benefits">
+    <div class="benefits-inner">
+        <h2 class="benefits-title">Por que participar?</h2>
+        <p class="benefits-sub">A Semana de Capacitação prepara servidores para os desafios da gestão pública municipal.</p>
+
+        <div class="benefits-stats">
+            <div class="stat-item">
+                <div class="stat-num">15</div>
+                <div class="stat-label">Cursos disponíveis</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-num">5</div>
+                <div class="stat-label">Turnos em 3 dias</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-num">60h</div>
+                <div class="stat-label">De conteúdo prático</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-num">100%</div>
+                <div class="stat-label">Voltado à prática</div>
+            </div>
+        </div>
+
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="benefit-icon" style="background: linear-gradient(135deg, #004a80, #0693e3)">
+                    <span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="5" height="5" rx="1"/><rect x="10" y="3" width="5" height="5" rx="1"/><rect x="17" y="3" width="5" height="5" rx="1"/><rect x="3" y="10" width="5" height="5" rx="1"/><rect x="10" y="10" width="5" height="5" rx="1"/><rect x="17" y="10" width="5" height="5" rx="1"/><rect x="3" y="17" width="5" height="5" rx="1"/><rect x="10" y="17" width="5" height="5" rx="1"/><rect x="17" y="17" width="5" height="5" rx="1"/></svg></span>
+                </div>
+                <div class="benefit-text">
+                    <h3>15 Cursos para Escolher</h3>
+                    <p>Amplo leque de opções em controle interno, licitações, contabilidade, prestação de contas, transparência e muito mais.</p>
+                </div>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon" style="background: linear-gradient(135deg, #8B1A2B, #A52240)">
+                    <span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
+                </div>
+                <div class="benefit-text">
+                    <h3>Foco na Prática Municipal</h3>
+                    <p>Estudos de caso reais de municípios paraenses, simulações de processos e roteiros práticos para aplicar imediatamente no seu trabalho.</p>
+                </div>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon" style="background: linear-gradient(135deg, #00a86b, #00d084)">
+                    <span class="icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                </div>
+                <div class="benefit-text">
+                    <h3>Instrutores do TCM-PA</h3>
+                    <p>Auditores, analistas e especialistas com vivência direta na fiscalização dos municípios do Pará.</p>
+                </div>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon" style="background: linear-gradient(135deg, #9b51e0, #b07ce8)">
+                    <span class="icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+                </div>
+                <div class="benefit-text">
+                    <h3>Prevenção de Irregularidades</h3>
+                    <p>Aprenda a identificar e evitar erros comuns que geram ressalvas e apontamentos nas auditorias do TCM-PA.</p>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -1086,6 +1322,7 @@ const ICO = {
     clipboard: '<span class="icon"><svg viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg></span>',
     pin: '<span class="icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>',
     arrowRight: '<span class="icon"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>',
+    pencil: '<span class="icon"><svg viewBox="0 0 24 24"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></span>',
 };
 
 /* ═══════════════════════════════════════════
@@ -1279,10 +1516,16 @@ function buildConfirmPanel() {
                 <h2 class="turno-title">Confirmar Inscrição</h2>
             </div>
             <div class="confirm-card">
-                <div class="confirm-section-title">${ICO.bookOpen} Seus Cursos</div>
+                <div class="confirm-section-header">
+                    <div class="confirm-section-title">${ICO.bookOpen} Seus Cursos</div>
+                    <button class="btn-edit-section" onclick="toggleEditCourses()">${ICO.pencil} <span id="btnEditCoursesLabel">Alterar</span></button>
+                </div>
                 <div id="confirmCourses"></div>
                 <hr style="border:none;border-top:1px solid var(--slate-100);margin:16px 0">
-                <div class="confirm-section-title">${ICO.user} Seus Dados</div>
+                <div class="confirm-section-header">
+                    <div class="confirm-section-title">${ICO.user} Seus Dados</div>
+                    <button class="btn-edit-section" onclick="toggleEditData()">${ICO.pencil} <span id="btnEditDataLabel">Editar</span></button>
+                </div>
                 <div id="confirmData"></div>
             </div>
             <label class="terms-label">
@@ -1354,9 +1597,9 @@ function goToStep(step) {
 
     if (hideHeader) {
         // Scroll so progress bar sits at very top of viewport
-        const hero = document.querySelector('.hero');
-        if (hero) {
-            const target = hero.offsetTop + hero.offsetHeight;
+        const benefits = document.querySelector('.benefits');
+        if (benefits) {
+            const target = benefits.offsetTop + benefits.offsetHeight;
             window.scrollTo({ top: target, behavior: 'smooth' });
             return;
         }
@@ -1480,23 +1723,122 @@ function fillFormSummary() {
 }
 
 function fillConfirmation() {
-    // Courses
+    // Courses — each row has a dropdown to change course inline
     let ch = '';
     TURNOS.forEach(t => {
         if (selections[t.id]) {
-            ch += `<div class="confirm-course-row"><span class="turno">${t.shortLabel}</span><span class="name">${selections[t.id].curso}</span></div>`;
+            const opts = t.courses.map(c =>
+                `<option value="${c.id}" ${c.id === selections[t.id].courseId ? 'selected' : ''}>${c.name}</option>`
+            ).join('');
+            ch += `<div class="confirm-course-row" data-turno-id="${t.id}">
+                <span class="turno">${t.shortLabel}</span>
+                <span class="name">${selections[t.id].curso}</span>
+                <select class="course-select" onchange="changeCourseInline(${t.id}, this.value)">${opts}</select>
+                <button class="btn-change-course" onclick="startPickCourse(this)">Alterar</button>
+            </div>`;
         }
     });
     document.getElementById('confirmCourses').innerHTML = ch;
 
-    // Data
-    const data = [
-        ['Nome', gv('f-nome')], ['E-mail', gv('f-email')], ['CPF', gv('f-cpf')],
-        ['Telefone', gv('f-tel')], ['Município', gv('f-mun')], ['Órgão', gv('f-orgao')], ['Cargo', gv('f-cargo')]
+    // Data — each row has an inline input for editing
+    const ORGAOS = ['Prefeitura Municipal','Câmara Municipal','Autarquia','Fundação','Empresa Pública','Sociedade de Economia Mista','Consórcio Público','Outro'];
+    const fields = [
+        { label: 'Nome', id: 'f-nome', type: 'text' },
+        { label: 'E-mail', id: 'f-email', type: 'email' },
+        { label: 'CPF', id: 'f-cpf', type: 'text' },
+        { label: 'Telefone', id: 'f-tel', type: 'tel' },
+        { label: 'Município', id: 'f-mun', type: 'select', options: MUNICIPIOS_PA },
+        { label: 'Órgão', id: 'f-orgao', type: 'select', options: ORGAOS },
+        { label: 'Cargo', id: 'f-cargo', type: 'text' }
     ];
-    document.getElementById('confirmData').innerHTML = data.map(([l,v]) =>
-        `<div class="confirm-data-row"><span class="label">${l}:</span><span class="value">${v}</span></div>`
-    ).join('');
+    document.getElementById('confirmData').innerHTML = fields.map(f => {
+        const val = gv(f.id);
+        let inputHtml;
+        if (f.type === 'select') {
+            const opts = f.options.map(o => `<option value="${o}" ${o === val ? 'selected' : ''}>${o}</option>`).join('');
+            inputHtml = `<select class="edit-input" data-field="${f.id}">${opts}</select>`;
+        } else {
+            inputHtml = `<input class="edit-input" type="${f.type}" value="${val}" data-field="${f.id}">`;
+        }
+        return `<div class="confirm-data-row"><span class="label">${f.label}:</span><span class="value">${val}</span>${inputHtml}</div>`;
+    }).join('');
+
+    // Reset edit states
+    _editingData = false;
+    _editingCourses = false;
+    const dl = document.getElementById('btnEditDataLabel');
+    const cl = document.getElementById('btnEditCoursesLabel');
+    if (dl) dl.textContent = 'Editar';
+    if (cl) cl.textContent = 'Alterar';
+}
+
+let _editingData = false;
+let _editingCourses = false;
+
+function toggleEditData() {
+    _editingData = !_editingData;
+    const container = document.getElementById('confirmData');
+    const label = document.getElementById('btnEditDataLabel');
+    if (_editingData) {
+        label.textContent = 'Salvar';
+        container.querySelectorAll('.confirm-data-row').forEach(r => r.classList.add('editing'));
+    } else {
+        // Save values back to the original form inputs
+        container.querySelectorAll('.edit-input').forEach(inp => {
+            const srcId = inp.dataset.field;
+            const srcEl = document.getElementById(srcId);
+            if (srcEl) srcEl.value = inp.value;
+        });
+        // Re-render to show updated values
+        label.textContent = 'Editar';
+        container.querySelectorAll('.confirm-data-row').forEach(r => {
+            r.classList.remove('editing');
+            const inp = r.querySelector('.edit-input');
+            if (inp) r.querySelector('.value').textContent = inp.value;
+        });
+        showToast('Dados atualizados!', 'success');
+    }
+}
+
+function toggleEditCourses() {
+    _editingCourses = !_editingCourses;
+    const container = document.getElementById('confirmCourses');
+    const label = document.getElementById('btnEditCoursesLabel');
+    if (_editingCourses) {
+        label.textContent = 'Pronto';
+        container.classList.add('editing-courses');
+    } else {
+        label.textContent = 'Alterar';
+        container.classList.remove('editing-courses');
+        // Close any open pickers
+        container.querySelectorAll('.confirm-course-row.picking').forEach(r => r.classList.remove('picking'));
+    }
+}
+
+function startPickCourse(btn) {
+    const row = btn.closest('.confirm-course-row');
+    row.classList.add('picking');
+    const sel = row.querySelector('.course-select');
+    sel.focus();
+    sel.addEventListener('blur', () => { row.classList.remove('picking'); }, { once: true });
+}
+
+function changeCourseInline(turnoId, courseId) {
+    const turno = TURNOS.find(t => t.id === turnoId);
+    const course = turno.courses.find(c => c.id === courseId);
+    if (!course) return;
+    // Update selection
+    selections[turnoId] = { curso: course.name, instrutor: course.instructor, duracao: course.duracao, courseId: course.id };
+    // Update the card selection visuals in the turno step
+    restoreSelection(turnoId);
+    // Update the row name text
+    const row = document.querySelector(`.confirm-course-row[data-turno-id="${turnoId}"]`);
+    if (row) {
+        row.querySelector('.name').textContent = course.name;
+        row.classList.remove('picking');
+    }
+    updateCounter();
+    showToast(`Curso alterado: ${course.name}`, 'success');
 }
 
 function gv(id) { return document.getElementById(id).value.trim(); }
@@ -1579,9 +1921,47 @@ function showSuccess() {
 /* ═══════════════════════════════════════════
    INPUT MASKS
 ═══════════════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   COUNTDOWN TIMER
+═══════════════════════════════════════════ */
+function initCountdown() {
+    const target = new Date('2026-03-15T08:30:00-03:00'); // 15 de março 2026, 8h30 Belém
+    const el = document.getElementById('countdown');
+    if (!el) return;
+
+    function update() {
+        const now = new Date();
+        const diff = target - now;
+
+        if (diff <= 0) {
+            el.innerHTML = '<div class="countdown-expired">O evento já começou!</div>';
+            return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+        el.innerHTML = `
+            <div class="countdown-item"><div class="countdown-num">${String(days).padStart(2,'0')}</div><div class="countdown-label">Dias</div></div>
+            <div class="countdown-sep">:</div>
+            <div class="countdown-item"><div class="countdown-num">${String(hours).padStart(2,'0')}</div><div class="countdown-label">Horas</div></div>
+            <div class="countdown-sep">:</div>
+            <div class="countdown-item"><div class="countdown-num">${String(mins).padStart(2,'0')}</div><div class="countdown-label">Min</div></div>
+            <div class="countdown-sep">:</div>
+            <div class="countdown-item"><div class="countdown-num">${String(secs).padStart(2,'0')}</div><div class="countdown-label">Seg</div></div>
+        `;
+    }
+
+    update();
+    setInterval(update, 1000);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     buildProgress();
     buildPanels();
+    initCountdown();
 
     // CPF mask
     document.getElementById('f-cpf').addEventListener('input', function(e) {
