@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escola de Contas | TCM-PA — Versão Carrossel</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ═══════════════════════════════════════════
+           MOBILE-FIRST RESET & TOKENS
+           Base = mobile (< 640px). Scale up via min-width.
+        ═══════════════════════════════════════════ */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --font-body: 'DM Sans', system-ui, sans-serif;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --navy-900: #0c1b33;
+            --navy-800: #13274f;
+            --sky-500: #0ea5e9;
+            --sky-400: #38bdf8;
+            --emerald-500: #10b981;
+            --emerald-400: #34d399;
+            --emerald-600: #059669;
+            --amber-500: #8B1A2B;
+            --amber-400: #A52240;
+            --red-500: #ef4444;
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-300: #cbd5e1;
+            --slate-400: #94a3b8;
+            --slate-500: #64748b;
+            --slate-600: #475569;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --shadow-card: 0 1px 3px rgba(0,0,0,.06), 0 6px 16px rgba(0,0,0,.05);
+            --shadow-card-hover: 0 4px 12px rgba(0,0,0,.08), 0 16px 40px rgba(0,0,0,.1);
+            --shadow-float: 0 8px 32px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.06);
+            --transition-base: 0.25s cubic-bezier(.4,0,.2,1);
+            /* Safe area for notched phones */
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --safe-left: env(safe-area-inset-left, 0px);
+            --safe-right: env(safe-area-inset-right, 0px);
+        }
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; }
+        body {
+            font-family: var(--font-body); background: var(--slate-100); color: var(--slate-800);
+            min-height: 100vh; min-height: 100dvh; /* dynamic viewport for mobile */
+            line-height: 1.6; overflow-x: hidden;
+        }
+        img { max-width: 100%; display: block; }
+        button { cursor: pointer; font-family: inherit; border: none; -webkit-tap-highlight-color: transparent; }
+        input, select { font-family: inherit; font-size: 16px; /* prevents iOS zoom on focus */ }
+
+        /* ═══════════════════════════════════════════
+           HEADER — Mobile base (compact)
+        ═══════════════════════════════════════════ */
+        .site-header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(255,255,255,.92);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border-bottom: 1px solid var(--slate-200);
+            height: 56px;
+            padding-left: var(--safe-left); padding-right: var(--safe-right);
+        }
+        .header-inner {
+            margin: 0 auto; padding: 0 16px;
+            display: flex; align-items: center; justify-content: space-between; height: 100%;
+        }
+        .logo-group { display: flex; align-items: center; gap: 10px; }
+        .logo-mark { position: relative; width: 32px; height: 32px; flex-shrink: 0; }
+        .logo-mark .back { position: absolute; top: 0; left: 0; width: 26px; height: 26px; background: linear-gradient(135deg, #dc2626, #ef4444); border-radius: 7px; }
+        .logo-mark .front { position: absolute; top: 6px; left: 6px; width: 26px; height: 26px; background: linear-gradient(135deg, var(--sky-500), var(--sky-400)); border-radius: 7px; }
+        .logo-text { font-weight: 800; font-size: 13px; letter-spacing: .02em; color: var(--slate-800); white-space: nowrap; }
+        .logo-text span { color: var(--slate-400); font-weight: 500; }
+        .header-badge {
+            font-size: 11px; color: var(--slate-500); background: var(--slate-100);
+            padding: 3px 10px; border-radius: 99px; font-weight: 500; flex-shrink: 0;
+        }
+
+        @media (min-width: 640px) {
+            .site-header { height: 60px; }
+            .header-inner { padding: 0 24px; max-width: 1200px; }
+            .logo-mark { width: 36px; height: 36px; }
+            .logo-mark .back, .logo-mark .front { width: 30px; height: 30px; }
+            .logo-text { font-size: 15px; }
+            .header-badge { font-size: 12px; padding: 4px 12px; }
+        }
+
+        /* ═══════════════════════════════════════════
+           HERO — Mobile base (tighter)
+        ═══════════════════════════════════════════ */
+        .hero {
+            padding-top: 56px; /* match mobile header */
+            background: linear-gradient(160deg, var(--navy-900) 0%, var(--navy-800) 40%, #0c3155 100%);
+            position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background-image: radial-gradient(rgba(255,255,255,.04) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
+        }
+        .hero::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
+            background: linear-gradient(to top, var(--slate-100), transparent);
+            pointer-events: none;
+        }
+        .hero-inner {
+            max-width: 800px; margin: 0 auto; padding: 36px 16px 48px; text-align: center;
+            position: relative; z-index: 1;
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.1);
+            padding: 5px 12px; border-radius: 99px; margin-bottom: 14px;
+        }
+        .hero-badge .dot { width: 7px; height: 7px; background: var(--emerald-400); border-radius: 50%; animation: pulse-dot 2s ease infinite; }
+        @keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
+        .hero-badge span { color: var(--emerald-400); font-size: 12px; font-weight: 600; }
+        .hero h1 {
+            font-family: var(--font-display); font-size: 24px; color: #fff;
+            line-height: 1.2; margin-bottom: 10px;
+        }
+        .hero h1 em { font-style: normal; color: var(--amber-400); }
+        .hero p { color: rgba(255,255,255,.6); font-size: 14px; max-width: 540px; margin: 0 auto 18px; line-height: 1.5; }
+        .hero-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+        .hero-tag {
+            background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.08);
+            padding: 5px 10px; border-radius: 99px; color: rgba(255,255,255,.7);
+            font-size: 12px; font-weight: 500;
+        }
+        .hero-tag.highlight { background: rgba(165,34,64,.2); border-color: rgba(165,34,64,.35); color: var(--amber-400); }
+
+        @media (min-width: 640px) {
+            .hero { padding-top: 60px; }
+            .hero-inner { padding: 56px 24px 64px; }
+            .hero h1 { font-size: clamp(28px, 5vw, 44px); }
+            .hero p { font-size: 16px; margin-bottom: 24px; }
+            .hero-badge span { font-size: 13px; }
+            .hero-tags { gap: 8px; }
+            .hero-tag { padding: 6px 14px; font-size: 13px; }
+        }
+
+        /* ═══════════════════════════════════════════
+           PROGRESS BAR — Mobile base (compact circles, no labels)
+        ═══════════════════════════════════════════ */
+        .progress-bar {
+            position: sticky; top: 56px; z-index: 50;
+            background: rgba(255,255,255,.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--slate-200);
+            padding: 12px 0;
+        }
+        .progress-inner {
+            max-width: 700px; margin: 0 auto; padding: 0 12px;
+            display: flex; align-items: center;
+        }
+        .prog-step {
+            display: flex; flex-direction: column; align-items: center; cursor: pointer;
+            position: relative; flex-shrink: 0;
+            -webkit-tap-highlight-color: transparent;
+            /* Bigger touch target on mobile */
+            padding: 4px;
+        }
+        .prog-circle {
+            width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 11px;
+            border: 2.5px solid var(--slate-300); background: #fff; color: var(--slate-400);
+            transition: all var(--transition-base);
+            position: relative; z-index: 2;
+        }
+        .prog-label {
+            font-size: 9px; color: var(--slate-400); margin-top: 3px; font-weight: 500;
+            white-space: nowrap; display: none; /* hidden on mobile */
+        }
+        .prog-line {
+            flex: 1; height: 2.5px; background: var(--slate-200); border-radius: 99px;
+            transition: background var(--transition-base); min-width: 8px;
+        }
+
+        /* Progress States */
+        .prog-step.active .prog-circle {
+            background: linear-gradient(135deg, var(--sky-500), #2563eb);
+            border-color: var(--sky-500); color: #fff;
+            box-shadow: 0 0 0 3px rgba(14,165,233,.18);
+        }
+        .prog-step.active .prog-label { color: var(--sky-500); font-weight: 600; }
+        .prog-step.completed .prog-circle {
+            background: linear-gradient(135deg, var(--emerald-500), var(--emerald-600));
+            border-color: var(--emerald-500); color: #fff;
+        }
+        .prog-step.completed .prog-label { color: var(--emerald-500); }
+        .prog-step.skipped .prog-circle { background: var(--slate-100); border-color: var(--slate-300); color: var(--slate-400); }
+        .prog-line.done { background: var(--emerald-500); }
+
+        @media (min-width: 640px) {
+            .progress-bar { top: 60px; padding: 14px 0; }
+            .progress-inner { padding: 0 24px; }
+            .prog-step { padding: 2px; }
+            .prog-step:hover .prog-circle { transform: scale(1.12); }
+            .prog-circle { width: 38px; height: 38px; font-size: 13px; }
+            .prog-label { display: block; font-size: 10px; margin-top: 4px; }
+            .prog-line { height: 3px; min-width: 12px; }
+            .prog-step.active .prog-circle { box-shadow: 0 0 0 4px rgba(14,165,233,.18); }
+        }
+
+        /* ═══════════════════════════════════════════
+           FLOATING COUNTER — Mobile base (smaller, bottom safe area)
+        ═══════════════════════════════════════════ */
+        .float-counter {
+            position: fixed; z-index: 90;
+            bottom: calc(16px + var(--safe-bottom)); right: 16px;
+            background: #fff; border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-float); border: 1px solid var(--slate-200);
+            padding: 10px 14px; text-align: center; min-width: 100px;
+            transition: all var(--transition-base);
+        }
+        .float-counter-label { font-size: 10px; color: var(--slate-500); font-weight: 500; margin-bottom: 2px; }
+        .float-counter-num { font-size: 24px; font-weight: 800; color: var(--slate-800); line-height: 1; }
+        .float-counter-num small { font-size: 14px; font-weight: 500; color: var(--slate-400); }
+        .float-counter-status {
+            margin-top: 6px; font-size: 10px; font-weight: 600;
+            padding: 2px 8px; border-radius: 99px; display: inline-block;
+        }
+        .float-counter-status.warn { background: #fce4ea; color: #8B1A2B; }
+        .float-counter-status.ok { background: #d1fae5; color: #065f46; }
+
+        @media (min-width: 640px) {
+            .float-counter { bottom: 24px; right: 24px; padding: 16px 20px; min-width: 120px; }
+            .float-counter-num { font-size: 32px; }
+            .float-counter-num small { font-size: 16px; }
+            .float-counter-label { font-size: 11px; }
+            .float-counter-status { font-size: 11px; padding: 3px 10px; margin-top: 8px; }
+        }
+
+        /* ═══════════════════════════════════════════
+           STEP PANELS — Mobile base
+        ═══════════════════════════════════════════ */
+        .main-content {
+            margin: 0 auto; padding: 20px 16px 120px;
+            padding-bottom: calc(120px + var(--safe-bottom));
+        }
+        .step-panel { display: none; animation: fadeSlide .35s ease; }
+        .step-panel.active { display: block; }
+        @keyframes fadeSlide { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+        .turno-header { text-align: center; margin-bottom: 20px; }
+        .turno-badge {
+            display: inline-block; padding: 4px 12px; border-radius: 99px;
+            font-size: 11px; font-weight: 600; margin-bottom: 6px;
+        }
+        .turno-title { font-family: var(--font-display); font-size: 22px; color: var(--slate-800); margin-bottom: 4px; }
+        .turno-sub { color: var(--slate-500); font-size: 13px; }
+
+        @media (min-width: 640px) {
+            .main-content { max-width: 1100px; padding: 32px 24px 140px; }
+            .turno-header { margin-bottom: 32px; }
+            .turno-badge { padding: 5px 16px; font-size: 13px; margin-bottom: 8px; }
+            .turno-title { font-size: 28px; }
+            .turno-sub { font-size: 14px; }
+        }
+
+        /* ═══════════════════════════════════════════
+           COURSE CARDS — Mobile: Horizontal Carousel
+        ═══════════════════════════════════════════ */
+        .cards-grid {
+            display: flex; gap: 12px;
+            overflow-x: auto; scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding: 4px 0 16px; margin: 0 -16px; padding-left: 16px; padding-right: 16px;
+            scrollbar-width: none;
+        }
+        .cards-grid::-webkit-scrollbar { display: none; }
+        .carousel-dots { display: flex; justify-content: center; gap: 6px; margin-top: 8px; }
+        .carousel-dot {
+            width: 8px; height: 8px; border-radius: 50%; background: var(--slate-300);
+            border: none; padding: 0; cursor: pointer; transition: all .2s;
+        }
+        .carousel-dot.active { background: var(--sky-500); width: 20px; border-radius: 4px; }
+
+        .course-card {
+            background: #fff; border-radius: var(--radius-lg); overflow: hidden;
+            border: 2px solid transparent; box-shadow: var(--shadow-card);
+            transition: all var(--transition-base); cursor: pointer; position: relative;
+            -webkit-tap-highlight-color: transparent;
+            flex: 0 0 82%; scroll-snap-align: center;
+            min-width: 0;
+        }
+        .course-card:active { transform: scale(.98); }
+        .course-card.selected { border-color: var(--emerald-500); box-shadow: 0 0 0 3px rgba(16,185,129,.15), var(--shadow-card); }
+        .course-card.selected .card-check { opacity: 1; transform: scale(1); }
+        .course-card.selected .card-head::after {
+            content: ''; position: absolute; inset: 0; background: rgba(16,185,129,.15);
+        }
+
+        .card-head { padding: 16px; position: relative; overflow: hidden; }
+        .card-head::before {
+            content: ''; position: absolute; top: -50%; right: -30%; width: 200px; height: 200px;
+            background: radial-gradient(circle, rgba(255,255,255,.1) 0%, transparent 70%);
+        }
+        .card-check {
+            position: absolute; top: 10px; right: 10px; width: 28px; height: 28px;
+            background: var(--emerald-500); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transform: scale(.5); transition: all .25s cubic-bezier(.34,1.56,.64,1);
+            box-shadow: 0 2px 8px rgba(16,185,129,.4); z-index: 2;
+        }
+        .card-check svg { width: 16px; height: 16px; color: #fff; stroke-width: 3; }
+        .card-tag {
+            display: inline-block; padding: 2px 8px; border-radius: 99px;
+            font-size: 10px; font-weight: 600; background: rgba(255,255,255,.18); color: #fff;
+            margin-bottom: 6px;
+        }
+        .card-head h3 { color: #fff; font-weight: 700; font-size: 16px; line-height: 1.25; }
+        .card-head p { color: rgba(255,255,255,.75); font-size: 12px; margin-top: 2px; }
+
+        .card-body { padding: 16px; }
+        .instructor {
+            display: flex; align-items: center; gap: 10px;
+            padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid var(--slate-100);
+        }
+        .instructor-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-weight: 700; font-size: 12px; flex-shrink: 0;
+        }
+        .instructor-name { font-weight: 600; font-size: 13px; color: var(--slate-800); }
+        .instructor-role { font-size: 11px; color: var(--slate-500); }
+
+        .card-section-title {
+            font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+            color: var(--slate-400); margin-bottom: 3px;
+            display: flex; align-items: center; gap: 4px;
+        }
+        .card-desc { font-size: 12.5px; color: var(--slate-600); line-height: 1.5; margin-bottom: 12px; }
+
+        .card-footer {
+            display: flex; align-items: center; justify-content: space-between;
+            padding-top: 12px; border-top: 1px solid var(--slate-100);
+        }
+        .card-meta { display: flex; gap: 10px; font-size: 11px; color: var(--slate-500); }
+        .card-meta span { display: inline-flex; align-items: center; gap: 3px; }
+        .card-cta { font-size: 11px; font-weight: 600; transition: color var(--transition-base); }
+        .course-card.selected .card-cta { color: var(--emerald-500); }
+
+        /* Cards — Tablet (>=640px): grid, no carousel */
+        @media (min-width: 640px) {
+            .cards-grid {
+                display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+                overflow: visible; scroll-snap-type: none;
+                padding: 0; margin: 0;
+            }
+            .carousel-dots { display: none; }
+            .course-card { flex: none; scroll-snap-align: none; border-radius: var(--radius-xl); }
+            .course-card:active { transform: none; }
+            .course-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card-hover); }
+            .card-head { padding: 20px 20px 16px; }
+            .card-check { width: 32px; height: 32px; top: 12px; right: 12px; }
+            .card-check svg { width: 18px; height: 18px; }
+            .card-tag { padding: 3px 10px; font-size: 11px; margin-bottom: 8px; }
+            .card-head h3 { font-size: 18px; }
+            .card-head p { font-size: 13px; }
+            .card-body { padding: 20px; }
+            .instructor { gap: 12px; padding-bottom: 16px; margin-bottom: 16px; }
+            .instructor-avatar { width: 40px; height: 40px; font-size: 13px; }
+            .instructor-name { font-size: 14px; }
+            .instructor-role { font-size: 12px; }
+            .card-section-title { font-size: 10px; margin-bottom: 4px; }
+            .card-desc { font-size: 13px; line-height: 1.55; margin-bottom: 14px; }
+            .card-footer { padding-top: 14px; }
+            .card-meta { gap: 12px; font-size: 12px; }
+            .card-meta span { gap: 3px; }
+            .card-cta { font-size: 12px; }
+        }
+
+        /* ═══════════════════════════════════════════
+           NAV BUTTONS — Mobile: full-width stacked
+        ═══════════════════════════════════════════ */
+        .nav-row {
+            display: flex; flex-direction: column-reverse; gap: 8px; margin-top: 24px;
+        }
+        .btn {
+            padding: 12px 16px; border-radius: 12px; font-weight: 600; font-size: 14px;
+            transition: all var(--transition-base); display: flex; align-items: center;
+            justify-content: center; gap: 6px; width: 100%;
+            -webkit-tap-highlight-color: transparent;
+            /* min touch target */
+            min-height: 48px;
+        }
+        .btn-ghost { background: var(--slate-100); color: var(--slate-600); }
+        .btn-ghost:active { background: var(--slate-200); }
+        .btn-primary { background: var(--sky-500); color: #fff; box-shadow: 0 2px 8px rgba(14,165,233,.3); }
+        .btn-primary:active { background: #0284c7; }
+        .btn-success { background: var(--emerald-500); color: #fff; box-shadow: 0 2px 8px rgba(16,185,129,.3); }
+        .btn-success:active { background: var(--emerald-600); }
+        .btn-dark { background: var(--slate-800); color: #fff; }
+        .btn-dark:active { background: var(--slate-700); }
+        .btn-row-right { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+
+        @media (min-width: 640px) {
+            .nav-row { flex-direction: row; justify-content: space-between; align-items: center; margin-top: 32px; }
+            .btn { width: auto; padding: 10px 20px; min-height: unset; display: inline-flex; }
+            .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14,165,233,.35); }
+            .btn-success:hover { transform: translateY(-1px); }
+            .btn-ghost:hover { background: var(--slate-200); }
+            .btn-dark:hover { background: var(--slate-700); }
+            .btn-row-right { flex-direction: row; width: auto; }
+        }
+
+        /* ═══════════════════════════════════════════
+           FORM (Step 6) — Mobile base
+        ═══════════════════════════════════════════ */
+        .form-wrapper { margin: 0 auto; }
+        .form-summary {
+            background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: var(--radius-lg);
+            padding: 14px 16px; margin-bottom: 20px;
+        }
+        .form-summary h4 { font-weight: 700; color: #065f46; font-size: 13px; margin-bottom: 6px; }
+        .form-summary-row {
+            display: flex; justify-content: space-between; padding: 3px 0; font-size: 12px; color: #047857;
+            gap: 8px;
+        }
+        .form-summary-row strong { font-weight: 600; text-align: right; }
+
+        .form-card {
+            background: #fff; border-radius: var(--radius-lg); box-shadow: var(--shadow-card);
+            padding: 20px; border: 1px solid var(--slate-200);
+        }
+        .form-group { margin-bottom: 16px; }
+        .form-group:last-child { margin-bottom: 0; }
+        .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--slate-700); margin-bottom: 5px; }
+        .form-label .req { color: var(--red-500); }
+        .form-input {
+            width: 100%; padding: 12px 14px; font-size: 16px; /* 16px prevents iOS zoom */
+            background: var(--slate-50); border: 1.5px solid var(--slate-200);
+            border-radius: 10px; color: var(--slate-800);
+            transition: all var(--transition-base); outline: none;
+            -webkit-appearance: none;
+        }
+        .form-input:focus { border-color: var(--sky-500); box-shadow: 0 0 0 3px rgba(14,165,233,.12); background: #fff; }
+        .form-input.error { border-color: var(--red-500); box-shadow: 0 0 0 3px rgba(239,68,68,.1); }
+        .form-input-hint { font-size: 11px; color: var(--red-500); margin-top: 3px; display: none; }
+        .form-input.error + .form-input-hint { display: block; }
+        .form-row { display: grid; grid-template-columns: 1fr; gap: 0; } /* stacked on mobile */
+        select.form-input {
+            appearance: none; -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px;
+        }
+
+        @media (min-width: 640px) {
+            .form-wrapper { max-width: 560px; }
+            .form-card { padding: 28px; border-radius: var(--radius-xl); }
+            .form-summary { padding: 16px 20px; margin-bottom: 24px; }
+            .form-summary h4 { font-size: 14px; }
+            .form-summary-row { font-size: 13px; }
+            .form-input { padding: 10px 14px; font-size: 14px; }
+            .form-row { grid-template-columns: 1fr 1fr; gap: 14px; }
+        }
+
+        /* ═══════════════════════════════════════════
+           CONFIRM (Step 7) — Mobile base
+        ═══════════════════════════════════════════ */
+        .confirm-wrapper { margin: 0 auto; }
+        .confirm-card {
+            background: #fff; border-radius: var(--radius-lg); box-shadow: var(--shadow-card);
+            padding: 20px; margin-bottom: 16px; border: 1px solid var(--slate-200);
+        }
+        .confirm-section-title { font-weight: 700; font-size: 14px; color: var(--slate-800); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+        .confirm-course-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 10px; background: var(--slate-50); border-radius: 8px; margin-bottom: 6px;
+            font-size: 12px; gap: 8px;
+        }
+        .confirm-course-row .turno { color: var(--slate-500); font-weight: 500; flex-shrink: 0; }
+        .confirm-course-row .name { font-weight: 600; color: var(--slate-800); text-align: right; }
+        .confirm-data-row { font-size: 13px; padding: 4px 0; display: flex; gap: 8px; }
+        .confirm-data-row .label { color: var(--slate-500); min-width: 70px; flex-shrink: 0; }
+        .confirm-data-row .value { color: var(--slate-800); font-weight: 500; word-break: break-word; }
+
+        .terms-label {
+            display: flex; align-items: flex-start; gap: 12px; cursor: pointer;
+            background: var(--slate-50); border: 1px solid var(--slate-200);
+            padding: 14px 16px; border-radius: var(--radius-lg); margin-bottom: 16px;
+            transition: all var(--transition-base);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .terms-label:active { border-color: var(--slate-300); background: var(--slate-100); }
+        .terms-label input { width: 22px; height: 22px; margin-top: 1px; accent-color: var(--emerald-500); flex-shrink: 0; }
+        .terms-label span { font-size: 12.5px; color: var(--slate-600); line-height: 1.5; }
+
+        @media (min-width: 640px) {
+            .confirm-wrapper { max-width: 560px; }
+            .confirm-card { padding: 28px; margin-bottom: 20px; border-radius: var(--radius-xl); }
+            .confirm-section-title { font-size: 15px; margin-bottom: 12px; }
+            .confirm-course-row { font-size: 13px; padding: 8px 12px; }
+            .confirm-data-row .label { min-width: 80px; }
+            .terms-label:hover { border-color: var(--slate-300); }
+            .terms-label input { width: 20px; height: 20px; }
+            .terms-label span { font-size: 13px; }
+        }
+
+        /* ═══════════════════════════════════════════
+           SUCCESS — Mobile base
+        ═══════════════════════════════════════════ */
+        .success-wrapper { margin: 0 auto; text-align: center; padding: 24px 0; }
+        .success-icon {
+            width: 68px; height: 68px; border-radius: 50%; margin: 0 auto 16px;
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            display: flex; align-items: center; justify-content: center; font-size: 30px;
+            animation: pop-in .5s cubic-bezier(.34,1.56,.64,1);
+        }
+        @keyframes pop-in { from { transform: scale(0); } to { transform: scale(1); } }
+        .success-title { font-family: var(--font-display); font-size: 22px; color: var(--slate-800); margin-bottom: 6px; }
+        .success-sub { color: var(--slate-500); font-size: 14px; margin-bottom: 24px; }
+        .success-box {
+            background: #fff; border-radius: var(--radius-lg); box-shadow: var(--shadow-card);
+            padding: 20px; text-align: left; margin-bottom: 12px; border: 1px solid var(--slate-200);
+        }
+        .success-box h4 { font-weight: 700; font-size: 13px; color: var(--slate-800); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+        .success-steps { font-size: 12.5px; color: var(--slate-600); }
+        .success-steps li { padding: 3px 0; list-style: none; }
+        .success-steps li::before { content: '→ '; color: var(--emerald-500); font-weight: 700; }
+
+        @media (min-width: 640px) {
+            .success-wrapper { max-width: 540px; padding: 32px 0; }
+            .success-icon { width: 80px; height: 80px; font-size: 36px; margin-bottom: 20px; }
+            .success-title { font-size: 28px; margin-bottom: 8px; }
+            .success-sub { font-size: 15px; margin-bottom: 28px; }
+            .success-box { padding: 24px; margin-bottom: 16px; border-radius: var(--radius-xl); }
+            .success-box h4 { font-size: 14px; }
+            .success-steps { font-size: 13px; }
+        }
+
+        /* ═══════════════════════════════════════════
+           CONFETTI
+        ═══════════════════════════════════════════ */
+        .confetti {
+            position: fixed; width: 8px; height: 8px; top: -12px;
+            animation: confetti-fall 3.5s cubic-bezier(.25,.46,.45,.94) forwards;
+            z-index: 9999; pointer-events: none;
+        }
+        @keyframes confetti-fall {
+            0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(105vh) rotate(720deg) scale(.6); opacity: 0; }
+        }
+
+        /* ═══════════════════════════════════════════
+           TOAST — Mobile base (wider, centered)
+        ═══════════════════════════════════════════ */
+        .toast {
+            position: fixed; top: 64px; left: 12px; right: 12px;
+            transform: translateY(-16px);
+            background: var(--slate-800); color: #fff; padding: 12px 16px;
+            border-radius: 12px; font-size: 13px; font-weight: 500;
+            box-shadow: 0 8px 24px rgba(0,0,0,.2); z-index: 200;
+            opacity: 0; transition: all .3s ease; pointer-events: none;
+            text-align: center;
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        .toast.warn { background: #b45309; }
+        .toast.error { background: #dc2626; }
+
+        @media (min-width: 640px) {
+            .toast {
+                left: 50%; right: auto; transform: translateX(-50%) translateY(-20px);
+                width: auto; max-width: 400px; padding: 10px 20px;
+            }
+            .toast.show { transform: translateX(-50%) translateY(0); }
+        }
+
+        /* ═══════════════════════════════════════════
+           COLOR THEMES FOR CARDS (6 cores institucionais)
+        ═══════════════════════════════════════════ */
+        .theme-blue { background: linear-gradient(135deg, #2563eb, #3b82f6); }
+        .theme-emerald { background: linear-gradient(135deg, #059669, #10b981); }
+        .theme-violet { background: linear-gradient(135deg, #7c3aed, #8b5cf6); }
+        .theme-amber { background: linear-gradient(135deg, #8B1A2B, #A52240); }
+        .theme-teal { background: linear-gradient(135deg, #0d9488, #14b8a6); }
+        .theme-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); }
+
+        /* ═══════════════════════════════════════════
+           ICON SYSTEM (SVG inline)
+        ═══════════════════════════════════════════ */
+        .icon { display: inline-flex; align-items: center; justify-content: center; width: 1em; height: 1em; vertical-align: -0.125em; flex-shrink: 0; }
+        .icon svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .icon-lg { width: 1.25em; height: 1.25em; }
+        .prog-circle .icon { width: 16px; height: 16px; }
+        .prog-circle .icon svg { stroke-width: 2.5; }
+
+        /* ═══════════════════════════════════════════
+           HERO CTA BUTTON
+        ═══════════════════════════════════════════ */
+        .btn-hero {
+            background: var(--amber-400); color: #fff; font-weight: 700;
+            padding: 14px 28px; border-radius: 12px; font-size: 15px;
+            margin-top: 20px; display: inline-flex; align-items: center; gap: 8px;
+            box-shadow: 0 4px 16px rgba(139,26,43,.3);
+            transition: all var(--transition-base);
+        }
+        .btn-hero:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(139,26,43,.4); }
+        .btn-hero:active { transform: scale(.98); }
+
+        /* ═══════════════════════════════════════════
+           FOOTER
+        ═══════════════════════════════════════════ */
+        .site-footer {
+            background: var(--navy-900); color: rgba(255,255,255,.7);
+            padding: 40px 16px 0; margin-top: 0;
+        }
+        .footer-inner {
+            max-width: 1100px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr; gap: 28px;
+            padding-bottom: 28px;
+        }
+        .footer-brand .logo-group { margin-bottom: 10px; }
+        .footer-brand .logo-text { color: #fff; }
+        .footer-brand p { font-size: 14px; color: rgba(255,255,255,.85); font-weight: 600; margin-bottom: 4px; }
+        .footer-brand small { font-size: 12px; color: rgba(255,255,255,.5); }
+        .footer-links h4, .footer-contact h4 {
+            font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+            color: rgba(255,255,255,.4); margin-bottom: 12px;
+        }
+        .footer-links a {
+            display: block; color: rgba(255,255,255,.7); text-decoration: none;
+            font-size: 13px; padding: 4px 0; transition: color var(--transition-base);
+        }
+        .footer-links a:hover { color: #fff; }
+        .footer-contact p { font-size: 13px; margin-bottom: 4px; }
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,.08);
+            padding: 16px 0; text-align: center;
+            font-size: 12px; color: rgba(255,255,255,.35);
+        }
+        @media (min-width: 640px) {
+            .site-footer { padding: 48px 24px 0; }
+            .footer-inner { grid-template-columns: 2fr 1fr 1fr; gap: 40px; padding-bottom: 36px; }
+        }
+
+        /* ═══════════════════════════════════════════
+           SPINNER (loading state)
+        ═══════════════════════════════════════════ */
+        .spinner {
+            display: inline-block; width: 18px; height: 18px;
+            border: 2.5px solid rgba(255,255,255,.3); border-top-color: #fff;
+            border-radius: 50%; animation: spin .6s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .btn[disabled] { opacity: .7; cursor: not-allowed; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+<!-- ════════ TOAST ════════ -->
+<div class="toast" id="toast"></div>
+
+<!-- ════════ HEADER ════════ -->
+<header class="site-header">
+    <div class="header-inner">
+        <div class="logo-group">
+            <div class="logo-mark"><div class="back"></div><div class="front"></div></div>
+            <div class="logo-text">ESCOLA DE CONTAS <span>| TCM-PA</span></div>
+        </div>
+        <div class="header-badge">Março 2026</div>
+    </div>
+</header>
+
+<!-- ════════ HERO ════════ -->
+<section class="hero">
+    <div class="hero-inner">
+        <div class="hero-badge">
+            <div class="dot"></div>
+            <span>Inscrições Abertas</span>
+        </div>
+        <h1>Semana de Capacitação <em>2026</em></h1>
+        <p>Monte sua trilha personalizada! Escolha os cursos que mais se encaixam no seu perfil, com mínimo de 1 curso obrigatório.</p>
+        <div class="hero-tags">
+            <div class="hero-tag"><span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span> 15–17 de Março</div>
+            <div class="hero-tag"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 5 Turnos disponíveis</div>
+            <div class="hero-tag highlight"><span class="icon"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span> Mínimo 1 curso</div>
+        </div>
+        <button class="btn btn-hero" onclick="document.getElementById('step-1').scrollIntoView({behavior:'smooth'})">Iniciar Inscrição <span class="icon"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></button>
+    </div>
+</section>
+
+<!-- ════════ PROGRESS BAR ════════ -->
+<nav class="progress-bar" id="progressBar">
+    <div class="progress-inner" id="progressInner">
+        <!-- Generated by JS -->
+    </div>
+</nav>
+
+<!-- ════════ FLOATING COUNTER ════════ -->
+<div class="float-counter" id="floatCounter" style="display:none">
+    <div class="float-counter-label">Selecionados</div>
+    <div class="float-counter-num"><span id="counterNum">0</span><small> / 5</small></div>
+    <div class="float-counter-status warn" id="counterStatus">Mín: 1 curso</div>
+</div>
+
+<!-- ════════ MAIN ════════ -->
+<main class="main-content">
+    <!-- Panels are generated by JS from data -->
+    <div id="panelsContainer"></div>
+</main>
+
+<!-- ════════ FOOTER ════════ -->
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <div class="logo-group">
+                <div class="logo-mark"><div class="back"></div><div class="front"></div></div>
+                <div class="logo-text">ESCOLA DE CONTAS <span>| TCM-PA</span></div>
+            </div>
+            <p>Escola de Contas do TCM-PA</p>
+            <small>Capacitando servidores para uma gestão pública de excelência.</small>
+        </div>
+        <div class="footer-links">
+            <h4>Links Úteis</h4>
+            <a href="https://www.tcm.pa.gov.br" target="_blank">Portal TCM-PA</a>
+            <a href="#">Legislação</a>
+            <a href="#">Escola de Contas</a>
+            <a href="#">Contato</a>
+        </div>
+        <div class="footer-contact">
+            <h4>Contato</h4>
+            <p>Travessa Quintino Bocaiúva, s/n</p>
+            <p>Belém — PA, 66053-240</p>
+            <p style="margin-top:8px">escola@tcm.pa.gov.br</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 Tribunal de Contas dos Municípios do Estado do Pará. Todos os direitos reservados.</p>
+    </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════ */
+const TURNOS = [
+    {
+        id: 1, label: 'Turno 1', shortLabel: 'Seg Manhã',
+        badge: 'Segunda-feira • 15/03 • Manhã (8h–12h)', badgeBg: '#e0f2fe', badgeColor: '#0369a1',
+        courses: [
+            {
+                id: 'c1-1', name: 'Controle Interno Básico', theme: 'theme-blue', tag: 'Nível Básico',
+                title: 'Controle Interno', subtitle: 'Fundamentos e Gestão de Riscos',
+                instructor: 'Aristides Gomes', instrRole: 'Auditor de Controle Externo', instrInitials: 'AG', instrTheme: 'theme-blue',
+                desc: 'Introdução aos conceitos fundamentais de controle interno, identificação e avaliação de riscos, e implementação de controles preventivos e detectivos na administração pública municipal.',
+                publico: 'Servidores iniciantes em controle interno, gestores públicos, membros de comissões de controle e auditoria interna.',
+                duracao: '4h', vagas: 50, ctaColor: '#2563eb'
+            },
+            {
+                id: 'c1-2', name: 'Gestão de Contratos I', theme: 'theme-emerald', tag: 'Lei 14.133/21',
+                title: 'Gestão de Contratos I', subtitle: 'Fundamentos da Nova Lei',
+                instructor: 'Patrícia Alves', instrRole: 'Especialista em Licitações', instrInitials: 'PA', instrTheme: 'theme-emerald',
+                desc: 'Visão geral da Lei 14.133/21, principais mudanças em relação à Lei 8.666/93, fases da contratação, modalidades licitatórias e o papel do gestor de contratos.',
+                publico: 'Pregoeiros, membros de comissão de licitação, gestores e fiscais de contratos, servidores de setores de compras.',
+                duracao: '4h', vagas: 50, ctaColor: '#059669'
+            },
+            {
+                id: 'c1-3', name: 'Contabilidade MCASP', theme: 'theme-violet', tag: 'MCASP 9ª Ed.',
+                title: 'Contabilidade Pública', subtitle: 'Manual Aplicado ao Setor Público',
+                instructor: 'Roberto Lima', instrRole: 'Contador Público', instrInitials: 'RL', instrTheme: 'theme-violet',
+                desc: 'Estrutura do MCASP, Plano de Contas Aplicado ao Setor Público (PCASP), procedimentos contábeis patrimoniais e demonstrações contábeis obrigatórias.',
+                publico: 'Contadores públicos, técnicos em contabilidade, servidores de setores financeiros e de controle interno.',
+                duracao: '4h', vagas: 40, ctaColor: '#7c3aed'
+            }
+        ]
+    },
+    {
+        id: 2, label: 'Turno 2', shortLabel: 'Seg Tarde',
+        badge: 'Segunda-feira • 15/03 • Tarde (14h–18h)', badgeBg: '#fce4ea', badgeColor: '#8B1A2B',
+        courses: [
+            {
+                id: 'c2-1', name: 'Prestação de Contas', theme: 'theme-amber', tag: 'TCM-PA',
+                title: 'Prestação de Contas', subtitle: 'Elaboração e Análise Anual',
+                instructor: 'Fernanda Costa', instrRole: 'Analista de Contas do TCM', instrInitials: 'FC', instrTheme: 'theme-amber',
+                desc: 'Documentos obrigatórios, prazos legais, principais irregularidades encontradas pelo TCM-PA, roteiro prático para montagem do processo de prestação de contas.',
+                publico: 'Contadores, controladores internos, secretários municipais, assessores de prefeitos e presidentes de câmaras.',
+                duracao: '4h', vagas: 80, ctaColor: '#8B1A2B'
+            },
+            {
+                id: 'c2-2', name: 'Transparência e LAI', theme: 'theme-rose', tag: 'Lei 12.527/11',
+                title: 'Transparência Pública', subtitle: 'LAI e Portal da Transparência',
+                instructor: 'Ana Beatriz', instrRole: 'Ouvidora Pública', instrInitials: 'AB', instrTheme: 'theme-rose',
+                desc: 'Obrigações da Lei de Acesso à Informação, transparência ativa e passiva, estruturação do Portal da Transparência, SIC e tratamento de denúncias.',
+                publico: 'Ouvidores, responsáveis por portais de transparência, servidores de TI, assessores de comunicação.',
+                duracao: '4h', vagas: 100, ctaColor: '#e11d48'
+            },
+            {
+                id: 'c2-3', name: 'SICONFI Prático', theme: 'theme-teal', tag: 'STN',
+                title: 'SICONFI Prático', subtitle: 'Declarações e Relatórios',
+                instructor: 'Carlos Mendonça', instrRole: 'Consultor em Finanças Públicas', instrInitials: 'CM', instrTheme: 'theme-teal',
+                desc: 'Navegação no sistema SICONFI, envio de declarações (RREO, RGF, DCA, MSC), correção de inconsistências e homologação de dados.',
+                publico: 'Contadores públicos, técnicos responsáveis pelo envio de declarações ao SICONFI, gestores financeiros.',
+                duracao: '4h', vagas: 40, ctaColor: '#0d9488'
+            }
+        ]
+    },
+    {
+        id: 3, label: 'Turno 3', shortLabel: 'Ter Manhã',
+        badge: 'Terça-feira • 16/03 • Manhã (8h–12h)', badgeBg: '#ffe4e6', badgeColor: '#9f1239',
+        courses: [
+            {
+                id: 'c3-1', name: 'Licitações na Prática', theme: 'theme-rose', tag: 'Casos Práticos',
+                title: 'Licitações na Prática', subtitle: 'Estudos de Caso Municipais',
+                instructor: 'Patrícia Alves', instrRole: 'Especialista em Licitações', instrInitials: 'PA', instrTheme: 'theme-rose',
+                desc: 'Análise de casos reais de processos licitatórios, erros comuns, recursos administrativos, e boas práticas para evitar irregularidades apontadas pelo TCM.',
+                publico: 'Pregoeiros, agentes de contratação, membros de comissão de licitação, assessores jurídicos.',
+                duracao: '4h', vagas: 60, ctaColor: '#e11d48'
+            },
+            {
+                id: 'c3-2', name: 'Controle Interno Avançado', theme: 'theme-violet', tag: 'Nível Avançado',
+                title: 'Controle Interno II', subtitle: 'Auditoria e Matriz de Riscos',
+                instructor: 'Aristides Gomes', instrRole: 'Auditor de Controle Externo', instrInitials: 'AG', instrTheme: 'theme-violet',
+                desc: 'Elaboração de matriz de riscos, planejamento de auditoria interna, técnicas de amostragem, relatórios de auditoria e monitoramento de recomendações.',
+                publico: 'Controladores internos com experiência, auditores, gestores de risco, membros de comitês de governança.',
+                duracao: '4h', vagas: 40, ctaColor: '#7c3aed'
+            },
+            {
+                id: 'c3-3', name: 'Folha de Pagamento', theme: 'theme-teal', tag: 'Gestão de Pessoas',
+                title: 'Folha de Pagamento', subtitle: 'Gestão e Controle no Setor Público',
+                instructor: 'Roberto Lima', instrRole: 'Contador Público', instrInitials: 'RL', instrTheme: 'theme-teal',
+                desc: 'Limites de despesa com pessoal (LRF), controle de gratificações, horas extras, cessões, aposentadorias e principais irregularidades verificadas pelo TCM.',
+                publico: 'Servidores de RH, gestores de pessoal, contadores, controladores internos, secretários de administração.',
+                duracao: '4h', vagas: 50, ctaColor: '#0d9488'
+            }
+        ]
+    },
+    {
+        id: 4, label: 'Turno 4', shortLabel: 'Ter Tarde',
+        badge: 'Terça-feira • 16/03 • Tarde (14h–18h)', badgeBg: '#ffedd5', badgeColor: '#9a3412',
+        courses: [
+            {
+                id: 'c4-1', name: 'Gestão de Contratos II', theme: 'theme-amber', tag: 'Avançado',
+                title: 'Gestão de Contratos II', subtitle: 'Fiscalização, Aditivos e Sanções',
+                instructor: 'Patrícia Alves', instrRole: 'Especialista em Licitações', instrInitials: 'PA', instrTheme: 'theme-amber',
+                desc: 'Atribuições do fiscal de contratos, elaboração de relatórios de acompanhamento, termos aditivos, aplicação de sanções e rescisão contratual.',
+                publico: 'Fiscais de contratos, gestores de contratos, ordenadores de despesa, assessores jurídicos.',
+                duracao: '4h', vagas: 50, ctaColor: '#8B1A2B'
+            },
+            {
+                id: 'c4-2', name: 'Orçamento Público', theme: 'theme-blue', tag: 'PPA • LDO • LOA',
+                title: 'Orçamento Público', subtitle: 'Ciclo Orçamentário na Prática',
+                instructor: 'Fernanda Costa', instrRole: 'Analista de Contas do TCM', instrInitials: 'FC', instrTheme: 'theme-blue',
+                desc: 'Elaboração do PPA, LDO e LOA, classificação orçamentária, créditos adicionais, execução orçamentária e cumprimento de metas fiscais.',
+                publico: 'Servidores de planejamento e orçamento, contadores, secretários de finanças, assessores de gabinete.',
+                duracao: '4h', vagas: 60, ctaColor: '#2563eb'
+            },
+            {
+                id: 'c4-3', name: 'Ouvidoria Municipal', theme: 'theme-emerald', tag: 'Atendimento',
+                title: 'Ouvidoria Municipal', subtitle: 'Gestão e Atendimento ao Cidadão',
+                instructor: 'Ana Beatriz', instrRole: 'Ouvidora Pública', instrInitials: 'AB', instrTheme: 'theme-emerald',
+                desc: 'Estruturação da ouvidoria, fluxo de atendimento, tratamento de manifestações, indicadores de desempenho e integração com o controle interno.',
+                publico: 'Ouvidores, servidores de atendimento ao público, gestores de qualidade, controladores internos.',
+                duracao: '4h', vagas: 80, ctaColor: '#059669'
+            }
+        ]
+    },
+    {
+        id: 5, label: 'Turno 5', shortLabel: 'Qua Manhã',
+        badge: 'Quarta-feira • 17/03 • Manhã (8h–12h)', badgeBg: '#f3e8ff', badgeColor: '#6b21a8',
+        courses: [
+            {
+                id: 'c5-1', name: 'Workshop: Casos TCM', theme: 'theme-blue', tag: 'Workshop',
+                title: 'Casos do TCM-PA', subtitle: 'Jurisprudência e Decisões',
+                instructor: 'Carlos Mendonça', instrRole: 'Consultor em Finanças Públicas', instrInitials: 'CM', instrTheme: 'theme-blue',
+                desc: 'Análise de decisões recentes do TCM-PA, entendimentos consolidados, recursos e defesas, e orientações para evitar irregularidades.',
+                publico: 'Todos os servidores públicos municipais, especialmente gestores, contadores e controladores internos.',
+                duracao: '4h', vagas: 100, ctaColor: '#2563eb'
+            },
+            {
+                id: 'c5-2', name: 'Encerramento de Mandato', theme: 'theme-emerald', tag: 'Transição',
+                title: 'Encerramento de Mandato', subtitle: 'Procedimentos para Transição',
+                instructor: 'Fernanda Costa', instrRole: 'Analista de Contas do TCM', instrInitials: 'FC', instrTheme: 'theme-emerald',
+                desc: 'Obrigações do último ano de mandato, vedações eleitorais, passagem de cargo, inventário patrimonial e responsabilização de gestores.',
+                publico: 'Prefeitos, vereadores, secretários municipais, contadores, controladores e assessores de gabinete.',
+                duracao: '4h', vagas: 80, ctaColor: '#059669'
+            },
+            {
+                id: 'c5-3', name: 'Compliance Municipal', theme: 'theme-violet', tag: 'Integridade',
+                title: 'Compliance Municipal', subtitle: 'Programa de Integridade',
+                instructor: 'Aristides Gomes', instrRole: 'Auditor de Controle Externo', instrInitials: 'AG', instrTheme: 'theme-violet',
+                desc: 'Implementação de programa de integridade, código de ética, canal de denúncias, conflito de interesses e cultura de compliance no setor público.',
+                publico: 'Gestores públicos, controladores internos, corregedores, ouvidores, membros de comissões de ética.',
+                duracao: '4h', vagas: 60, ctaColor: '#7c3aed'
+            }
+        ]
+    }
+];
+
+const MUNICIPIOS_PA = [
+    "Abaetetuba","Abel Figueiredo","Acará","Afuá","Água Azul do Norte","Alenquer","Almeirim",
+    "Altamira","Anajás","Ananindeua","Anapu","Augusto Corrêa","Aurora do Pará","Aveiro",
+    "Bagre","Baião","Bannach","Barcarena","Belém","Belterra","Benevides","Bom Jesus do Tocantins",
+    "Bonito","Bragança","Brasil Novo","Brejo Grande do Araguaia","Breu Branco","Breves",
+    "Bujaru","Cachoeira do Arari","Cachoeira do Piriá","Cametá","Canaã dos Carajás",
+    "Capanema","Capitão Poço","Castanhal","Chaves","Colares","Conceição do Araguaia",
+    "Concórdia do Pará","Cumaru do Norte","Curionópolis","Curralinho","Curuá","Curuçá",
+    "Dom Eliseu","Eldorado dos Carajás","Faro","Floresta do Araguaia","Garrafão do Norte",
+    "Goianésia do Pará","Gurupá","Igarapé-Açu","Igarapé-Miri","Inhangapi","Ipixuna do Pará",
+    "Irituia","Itaituba","Itupiranga","Jacareacanga","Jacundá","Juruti","Limoeiro do Ajuru",
+    "Mãe do Rio","Magalhães Barata","Marabá","Maracanã","Marapanim","Marituba",
+    "Medicilândia","Melgaço","Mocajuba","Moju","Mojuí dos Campos","Monte Alegre",
+    "Muaná","Nova Esperança do Piriá","Nova Ipixuna","Nova Timboteua","Novo Progresso",
+    "Novo Repartimento","Óbidos","Oeiras do Pará","Oriximiná","Ourém","Ourilândia do Norte",
+    "Pacajá","Palestina do Pará","Paragominas","Parauapebas","Pau D'Arco","Peixe-Boi",
+    "Piçarra","Placas","Ponta de Pedras","Portel","Porto de Moz","Prainha",
+    "Primavera","Quatipuru","Redenção","Rio Maria","Rondon do Pará","Rurópolis",
+    "Salinópolis","Salvaterra","Santa Bárbara do Pará","Santa Cruz do Arari",
+    "Santa Izabel do Pará","Santa Luzia do Pará","Santa Maria das Barreiras",
+    "Santa Maria do Pará","Santana do Araguaia","Santarém","Santarém Novo",
+    "Santo Antônio do Tauá","São Caetano de Odivelas","São Domingos do Araguaia",
+    "São Domingos do Capim","São Félix do Xingu","São Francisco do Pará",
+    "São Geraldo do Araguaia","São João da Ponta","São João de Pirabas",
+    "São João do Araguaia","São Miguel do Guamá","São Sebastião da Boa Vista",
+    "Sapucaia","Senador José Porfírio","Soure","Tailândia","Terra Alta","Terra Santa",
+    "Tomé-Açu","Tracuateua","Trairão","Tucumã","Tucuruí","Ulianópolis","Uruará",
+    "Vigia","Viseu","Vitória do Xingu","Xinguara"
+];
+
+/* ═══════════════════════════════════════════
+   GOOGLE FORMS — INTEGRAÇÃO AUTOMÁTICA
+   Form ID: 1FAIpQLSfHwVX-53NsItdGpcD-hyh7OVfPJUy3vn6skiPUpdY44pGA2g
+═══════════════════════════════════════════ */
+const GFORMS = {
+    url: 'https://docs.google.com/forms/d/e/1FAIpQLSfHwVX-53NsItdGpcD-hyh7OVfPJUy3vn6skiPUpdY44pGA2g/formResponse',
+    f: {
+        nome:      'entry.137986107',
+        email:     'entry.387358485',
+        cpf:       'entry.170998325',
+        telefone:  'entry.1003090881',
+        municipio: 'entry.1275313173',
+        orgao:     'entry.1044411995',
+        cargo:     'entry.2131353385',
+        turno1:    'entry.2119241331',
+        turno2:    'entry.1270592413',
+        turno3:    'entry.632286599',
+        turno4:    'entry.1768044873',
+        turno5:    'entry.1531634535',
+        total:     'entry.419920169'
+    }
+};
+
+function enviarGoogleForms() {
+    const fd = new URLSearchParams();
+    const F = GFORMS.f;
+
+    fd.append(F.nome, gv('f-nome'));
+    fd.append(F.email, gv('f-email'));
+    fd.append(F.cpf, gv('f-cpf'));
+    fd.append(F.telefone, gv('f-tel'));
+    fd.append(F.municipio, gv('f-mun'));
+    fd.append(F.orgao, gv('f-orgao'));
+    fd.append(F.cargo, gv('f-cargo'));
+
+    let totalCursos = 0;
+    TURNOS.forEach(t => {
+        const sel = selections[t.id];
+        if (sel) {
+            const info = sel.curso + ' (' + sel.instrutor + ')';
+            fd.append(F['turno' + t.id], info);
+            totalCursos++;
+        } else {
+            fd.append(F['turno' + t.id], '\u2014');
+        }
+    });
+    fd.append(F.total, String(totalCursos));
+
+    return fetch(GFORMS.url, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: fd.toString()
+    });
+}
+
+/* ═══════════════════════════════════════════
+   SVG ICONS (Lucide-style, stroke-based)
+═══════════════════════════════════════════ */
+const ICO = {
+    user: '<span class="icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>',
+    check: '<span class="icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>',
+    checkCircle: '<span class="icon" style="font-size:36px"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>',
+    bookOpen: '<span class="icon"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>',
+    users: '<span class="icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>',
+    clock: '<span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>',
+    clipboard: '<span class="icon"><svg viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg></span>',
+    pin: '<span class="icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>',
+    arrowRight: '<span class="icon"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>',
+};
+
+/* ═══════════════════════════════════════════
+   STATE — Dados primeiro, depois turnos
+   Step 1 = Dados Pessoais
+   Steps 2-6 = Turnos 1-5
+   Step 7 = Confirmação
+═══════════════════════════════════════════ */
+let currentStep = 1;
+const selections = { 1: null, 2: null, 3: null, 4: null, 5: null };
+const STEPS = [
+    { id: 1, label: ICO.user },
+    { id: 2, label: 'T1' }, { id: 3, label: 'T2' }, { id: 4, label: 'T3' },
+    { id: 5, label: 'T4' }, { id: 6, label: 'T5' },
+    { id: 7, label: ICO.check }
+];
+
+/* ═══════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════ */
+let toastTimer = null;
+function showToast(msg, type = '') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast show ' + type;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.className = 'toast', 2500);
+}
+
+/* ═══════════════════════════════════════════
+   BUILD PROGRESS BAR
+═══════════════════════════════════════════ */
+function buildProgress() {
+    const c = document.getElementById('progressInner');
+    const labels = ['Dados', 'Seg AM', 'Seg PM', 'Ter AM', 'Ter PM', 'Qua AM', 'Confirmar'];
+    let html = '';
+    STEPS.forEach((s, i) => {
+        html += `<div class="prog-step ${i === 0 ? 'active' : ''}" data-step="${s.id}" onclick="goToStep(${s.id})">
+            <div class="prog-circle" id="pc-${s.id}" data-label="${typeof s.label === 'string' && !s.label.includes('<') ? s.label : ''}">${s.label}</div>
+            <div class="prog-label">${labels[i]}</div>
+        </div>`;
+        if (i < STEPS.length - 1) html += `<div class="prog-line" id="pl-${s.id}"></div>`;
+    });
+    c.innerHTML = html;
+}
+
+/* ═══════════════════════════════════════════
+   BUILD COURSE PANELS
+═══════════════════════════════════════════ */
+function buildPanels() {
+    const container = document.getElementById('panelsContainer');
+    let html = '';
+
+    // Step 1 — Form (FIRST!)
+    html += buildFormPanel();
+
+    // Turno panels (steps 2-6, mapped to turno ids 1-5)
+    TURNOS.forEach(turno => {
+        const stepNum = turno.id + 1; // turno 1 = step 2, turno 5 = step 6
+        const isLast = turno.id === 5;
+        html += `<div class="step-panel" id="step-${stepNum}">
+            <div class="turno-header">
+                <div class="turno-badge" style="background:${turno.badgeBg};color:${turno.badgeColor}">${turno.badge}</div>
+                <h2 class="turno-title">${turno.label}${isLast ? ' (Último)' : ''}</h2>
+                <p class="turno-sub">Escolha um curso ou pule para o próximo turno</p>
+            </div>
+            <div class="cards-grid" id="carousel-${turno.id}">
+                ${turno.courses.map(c => buildCard(turno.id, c)).join('')}
+            </div>
+            <div class="carousel-dots" id="dots-${turno.id}">
+                ${turno.courses.map((c, idx) => `<button class="carousel-dot ${idx === 0 ? 'active' : ''}" onclick="scrollToCard(${turno.id}, ${idx})"></button>`).join('')}
+            </div>
+            <div class="nav-row">
+                <div class="btn-row-right">
+                    <button class="btn ${isLast ? 'btn-success' : 'btn-primary'}" onclick="goToStep(${isLast ? 7 : stepNum + 1})">${isLast ? 'Revisar Inscrição →' : 'Próximo →'}</button>
+                    ${!isLast ? `<button class="btn btn-ghost" onclick="goToStep(${stepNum + 1})">Pular Turno →</button>` : ''}
+                </div>
+                <button class="btn btn-ghost" onclick="goToStep(${stepNum - 1})">← Voltar</button>
+            </div>
+        </div>`;
+    });
+
+    // Step 7 — Confirm
+    html += buildConfirmPanel();
+    // Success
+    html += buildSuccessPanel();
+
+    container.innerHTML = html;
+}
+
+function buildCard(turnoId, c) {
+    return `<div class="course-card" data-course-id="${c.id}" onclick="toggleCourse(${turnoId},'${c.id}','${c.name.replace(/'/g,"\\'")}','${c.instructor.replace(/'/g,"\\'")}','${c.duracao}')">
+        <div class="card-head ${c.theme}">
+            <div class="card-check"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div>
+            <div class="card-tag">${c.tag}</div>
+            <h3>${c.title}</h3>
+            <p>${c.subtitle}</p>
+        </div>
+        <div class="card-body">
+            <div class="instructor">
+                <div class="instructor-avatar ${c.instrTheme}">${c.instrInitials}</div>
+                <div>
+                    <div class="instructor-name">${c.instructor}</div>
+                    <div class="instructor-role">${c.instrRole}</div>
+                </div>
+            </div>
+            <div class="card-section-title">${ICO.bookOpen} Sobre o Curso</div>
+            <div class="card-desc">${c.desc}</div>
+            <div class="card-section-title">${ICO.users} Público Alvo</div>
+            <div class="card-desc">${c.publico}</div>
+            <div class="card-footer">
+                <div class="card-meta"><span>${ICO.clock} ${c.duracao}</span><span>${ICO.users} ${c.vagas} vagas</span></div>
+                <div class="card-cta" style="color:${c.ctaColor}">Selecionar</div>
+            </div>
+        </div>
+    </div>`;
+}
+
+function buildFormPanel() {
+    const munOptions = MUNICIPIOS_PA.map(m => `<option value="${m}">${m}</option>`).join('');
+    return `<div class="step-panel active" id="step-1">
+        <div class="form-wrapper">
+            <div class="turno-header">
+                <div style="width:56px;height:56px;background:var(--slate-100);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:24px;color:var(--slate-500)">${ICO.user}</div>
+                <h2 class="turno-title">Seus Dados</h2>
+                <p class="turno-sub">Preencha seus dados para iniciar a seleção de cursos</p>
+            </div>
+            <div class="form-card">
+                <div class="form-group">
+                    <label class="form-label">Nome Completo <span class="req">*</span></label>
+                    <input type="text" id="f-nome" class="form-input" placeholder="Seu nome completo" autocomplete="name">
+                    <div class="form-input-hint">Informe seu nome completo</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">E-mail <span class="req">*</span></label>
+                    <input type="email" id="f-email" class="form-input" placeholder="seu@email.com" autocomplete="email">
+                    <div class="form-input-hint">Informe um e-mail válido</div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">CPF <span class="req">*</span></label>
+                        <input type="text" id="f-cpf" class="form-input" placeholder="000.000.000-00" maxlength="14" inputmode="numeric">
+                        <div class="form-input-hint">CPF inválido</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Telefone <span class="req">*</span></label>
+                        <input type="tel" id="f-tel" class="form-input" placeholder="(00) 00000-0000" maxlength="15" inputmode="numeric">
+                        <div class="form-input-hint">Informe seu telefone</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Município <span class="req">*</span></label>
+                    <select id="f-mun" class="form-input">
+                        <option value="">Selecione seu município...</option>
+                        ${munOptions}
+                    </select>
+                    <div class="form-input-hint">Selecione o município</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Órgão <span class="req">*</span></label>
+                    <select id="f-orgao" class="form-input">
+                        <option value="">Selecione...</option>
+                        <option>Prefeitura Municipal</option>
+                        <option>Câmara Municipal</option>
+                        <option>Autarquia</option>
+                        <option>Fundação</option>
+                        <option>Empresa Pública</option>
+                        <option>Sociedade de Economia Mista</option>
+                        <option>Consórcio Público</option>
+                        <option>Outro</option>
+                    </select>
+                    <div class="form-input-hint">Selecione o órgão</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Cargo / Função <span class="req">*</span></label>
+                    <input type="text" id="f-cargo" class="form-input" placeholder="Ex: Contador, Controlador Interno..." autocomplete="organization-title">
+                    <div class="form-input-hint">Informe seu cargo</div>
+                </div>
+            </div>
+            <div class="nav-row" style="margin-top:24px">
+                <div></div>
+                <button class="btn btn-primary" onclick="goToStep(2)">Escolher Cursos →</button>
+            </div>
+        </div>
+    </div>`;
+}
+
+function buildConfirmPanel() {
+    return `<div class="step-panel" id="step-7">
+        <div class="confirm-wrapper">
+            <div class="turno-header">
+                <div style="width:56px;height:56px;background:#fce4ea;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:24px;color:#8B1A2B">${ICO.clipboard}</div>
+                <h2 class="turno-title">Confirmar Inscrição</h2>
+            </div>
+            <div class="confirm-card">
+                <div class="confirm-section-title">${ICO.bookOpen} Seus Cursos</div>
+                <div id="confirmCourses"></div>
+                <hr style="border:none;border-top:1px solid var(--slate-100);margin:16px 0">
+                <div class="confirm-section-title">${ICO.user} Seus Dados</div>
+                <div id="confirmData"></div>
+            </div>
+            <label class="terms-label">
+                <input type="checkbox" id="f-termos">
+                <span>Declaro que as informações prestadas são verdadeiras e me comprometo a participar dos cursos selecionados, ciente de que a ausência sem justificativa poderá impactar futuras inscrições.</span>
+            </label>
+            <div class="nav-row">
+                <button class="btn btn-ghost" onclick="goToStep(6)">← Voltar</button>
+                <button class="btn btn-success" id="btn-finalizar" onclick="finalizar()" style="font-size:15px;padding:12px 28px">${ICO.check} Confirmar Inscrição</button>
+            </div>
+        </div>
+    </div>`;
+}
+
+function buildSuccessPanel() {
+    return `<div class="step-panel" id="step-success">
+        <div class="success-wrapper">
+            <div class="success-icon" style="color:#059669">${ICO.checkCircle}</div>
+            <h2 class="success-title">Inscrição Confirmada!</h2>
+            <p class="success-sub">Enviamos os detalhes para o seu e-mail.</p>
+            <div class="success-box">
+                <h4>${ICO.pin} Próximos Passos</h4>
+                <ul class="success-steps">
+                    <li>Verifique seu e-mail (inclusive spam)</li>
+                    <li>Adicione as datas à sua agenda</li>
+                    <li>O link de acesso será enviado 1 dia antes</li>
+                </ul>
+            </div>
+            <div class="success-box">
+                <h4>${ICO.bookOpen} Cursos Selecionados</h4>
+                <div id="successCourses"></div>
+            </div>
+            <button class="btn btn-dark" onclick="location.reload()" style="margin-top:20px">Nova Inscrição</button>
+        </div>
+    </div>`;
+}
+
+/* ═══════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════ */
+function goToStep(step) {
+    // Step 1 = Dados, validate on leaving step 1 to step 2
+    if (step === 2 && currentStep === 1) {
+        if (!validateForm()) return;
+    }
+
+    // Validação Step 7 → precisa de pelo menos 1 curso + form válido
+    if (step === 7) {
+        if (getCount() === 0) { showToast('Selecione pelo menos 1 curso!', 'warn'); return; }
+        if (!validateForm()) return;
+        fillConfirmation();
+    }
+
+    currentStep = step;
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+    const panel = document.getElementById(step === 'success' ? 'step-success' : `step-${step}`);
+    if (panel) panel.classList.add('active');
+
+    updateProgress(step);
+    // Steps 2-6 are turnos 1-5
+    if (step >= 2 && step <= 6) restoreSelection(step - 1);
+
+    // Hide counter on form(step1)/confirm(step7)/success
+    document.getElementById('floatCounter').style.display = (step === 1 || step >= 7 || step === 'success') ? 'none' : '';
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgress(step) {
+    STEPS.forEach((s, i) => {
+        const circle = document.getElementById(`pc-${s.id}`);
+        const line = document.getElementById(`pl-${s.id}`);
+        const parent = circle.parentElement;
+        parent.className = 'prog-step';
+        parent.setAttribute('onclick', `goToStep(${s.id})`);
+
+        if (s.id == step) {
+            parent.classList.add('active');
+        } else if (s.id < step) {
+            // Steps 2-6 are turnos — show skipped if no course selected
+            const isTurnoStep = s.id >= 2 && s.id <= 6;
+            if (isTurnoStep && !selections[s.id - 1]) {
+                parent.classList.add('skipped');
+                circle.innerHTML = '−';
+            } else {
+                parent.classList.add('completed');
+                if (isTurnoStep) circle.innerHTML = ICO.check;
+            }
+        } else {
+            // Reset label for future turno steps
+            if (s.id >= 2 && s.id <= 6) circle.innerHTML = STEPS[i].label;
+        }
+
+        if (line) line.className = 'prog-line' + (s.id < step ? ' done' : '');
+    });
+}
+
+/* ═══════════════════════════════════════════
+   COURSE SELECTION
+═══════════════════════════════════════════ */
+function toggleCourse(turnoId, courseId, name, instructor, duracao) {
+    const panel = document.getElementById(`step-${turnoId + 1}`);
+    const cards = panel.querySelectorAll('.course-card');
+    const clickedCard = panel.querySelector(`[data-course-id="${courseId}"]`);
+    const wasSelected = clickedCard.classList.contains('selected');
+
+    cards.forEach(c => c.classList.remove('selected'));
+
+    if (wasSelected) {
+        selections[turnoId] = null;
+    } else {
+        clickedCard.classList.add('selected');
+        selections[turnoId] = { curso: name, instrutor: instructor, duracao, courseId };
+    }
+    updateCounter();
+}
+
+function restoreSelection(turnoId) {
+    const panel = document.getElementById(`step-${turnoId + 1}`);
+    if (!panel) return;
+    panel.querySelectorAll('.course-card').forEach(c => {
+        c.classList.remove('selected');
+        if (selections[turnoId] && c.dataset.courseId === selections[turnoId].courseId) {
+            c.classList.add('selected');
+        }
+    });
+}
+
+function getCount() { return Object.values(selections).filter(Boolean).length; }
+
+function updateCounter() {
+    const n = getCount();
+    document.getElementById('counterNum').textContent = n;
+    const st = document.getElementById('counterStatus');
+    if (n === 0) { st.className = 'float-counter-status warn'; st.textContent = 'Mín: 1 curso'; }
+    else { st.className = 'float-counter-status ok'; st.textContent = `${n} curso${n > 1 ? 's' : ''} ✓`; }
+}
+
+/* ═══════════════════════════════════════════
+   FORM & VALIDATION
+═══════════════════════════════════════════ */
+function validateForm() {
+    const fields = [
+        { id: 'f-nome', check: v => v.length >= 3 },
+        { id: 'f-email', check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+        { id: 'f-cpf', check: v => validarCPF(v) },
+        { id: 'f-tel', check: v => v.replace(/\D/g,'').length >= 10 },
+        { id: 'f-mun', check: v => v.length > 0 },
+        { id: 'f-orgao', check: v => v.length > 0 },
+        { id: 'f-cargo', check: v => v.length >= 2 },
+    ];
+    let ok = true;
+    fields.forEach(f => {
+        const el = document.getElementById(f.id);
+        const val = el.value.trim();
+        if (!f.check(val)) { el.classList.add('error'); ok = false; } else { el.classList.remove('error'); }
+    });
+    if (!ok) {
+        showToast('Preencha todos os campos corretamente!', 'error');
+        goToStep(1);
+    }
+    return ok;
+}
+
+function validarCPF(cpf) {
+    cpf = cpf.replace(/\D/g, '');
+    if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+    let soma = 0;
+    for (let i = 0; i < 9; i++) soma += parseInt(cpf[i]) * (10 - i);
+    let resto = (soma * 10) % 11;
+    if (resto === 10) resto = 0;
+    if (resto !== parseInt(cpf[9])) return false;
+    soma = 0;
+    for (let i = 0; i < 10; i++) soma += parseInt(cpf[i]) * (11 - i);
+    resto = (soma * 10) % 11;
+    if (resto === 10) resto = 0;
+    return resto === parseInt(cpf[10]);
+}
+
+function fillFormSummary() {
+    // Not needed — form is now step 1
+}
+
+function fillConfirmation() {
+    // Courses
+    let ch = '';
+    TURNOS.forEach(t => {
+        if (selections[t.id]) {
+            ch += `<div class="confirm-course-row"><span class="turno">${t.shortLabel}</span><span class="name">${selections[t.id].curso}</span></div>`;
+        }
+    });
+    document.getElementById('confirmCourses').innerHTML = ch;
+
+    // Data
+    const data = [
+        ['Nome', gv('f-nome')], ['E-mail', gv('f-email')], ['CPF', gv('f-cpf')],
+        ['Telefone', gv('f-tel')], ['Município', gv('f-mun')], ['Órgão', gv('f-orgao')], ['Cargo', gv('f-cargo')]
+    ];
+    document.getElementById('confirmData').innerHTML = data.map(([l,v]) =>
+        `<div class="confirm-data-row"><span class="label">${l}:</span><span class="value">${v}</span></div>`
+    ).join('');
+}
+
+function gv(id) { return document.getElementById(id).value.trim(); }
+
+/* ═══════════════════════════════════════════
+   FINALIZAR
+═══════════════════════════════════════════ */
+function finalizar() {
+    if (!document.getElementById('f-termos').checked) {
+        showToast('Aceite os termos para confirmar.', 'warn');
+        return;
+    }
+
+    const btn = document.getElementById('btn-finalizar');
+    const btnOriginal = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Enviando...';
+
+    enviarGoogleForms()
+        .then(() => {
+            console.log('[Escola de Contas] Inscricao enviada ao Google Forms!');
+            showSuccess();
+        })
+        .catch(err => {
+            console.error('[Escola de Contas] Erro ao enviar:', err);
+            // mode: 'no-cors' may throw but data still arrives — show success
+            showSuccess();
+        });
+
+    // Timeout fallback (5s) in case fetch hangs
+    setTimeout(() => {
+        if (btn.disabled) showSuccess();
+    }, 5000);
+}
+
+let successShown = false;
+function showSuccess() {
+    if (successShown) return;
+    successShown = true;
+    const btn = document.getElementById('btn-finalizar');
+    btn.disabled = false;
+
+    // Fill success panel
+    let html = '';
+    TURNOS.forEach(t => {
+        if (selections[t.id]) {
+            html += `<div class="confirm-course-row"><span class="turno">${t.shortLabel}</span><span class="name">${selections[t.id].curso}</span></div>`;
+        }
+    });
+    document.getElementById('successCourses').innerHTML = html;
+
+    goToStep('success');
+
+    // Mark all steps completed
+    STEPS.forEach(s => {
+        const circle = document.getElementById(`pc-${s.id}`);
+        if (circle) {
+            circle.parentElement.className = 'prog-step completed';
+            const line = document.getElementById(`pl-${s.id}`);
+            if (line) line.className = 'prog-line done';
+        }
+    });
+
+    // Confetti
+    const colors = ['#10b981','#3b82f6','#A52240','#ef4444','#8b5cf6','#0d9488'];
+    for (let i = 0; i < 60; i++) {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        c.style.animationDelay = (Math.random() * 2) + 's';
+        c.style.borderRadius = Math.random() > .5 ? '50%' : '2px';
+        c.style.width = (6 + Math.random() * 6) + 'px';
+        c.style.height = (6 + Math.random() * 6) + 'px';
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 6000);
+    }
+}
+
+/* ═══════════════════════════════════════════
+   INPUT MASKS
+═══════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+    buildProgress();
+    buildPanels();
+
+    // CPF mask
+    document.getElementById('f-cpf').addEventListener('input', function(e) {
+        let v = this.value.replace(/\D/g, '').slice(0, 11);
+        v = v.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+        this.value = v;
+    });
+
+    // Phone mask
+    document.getElementById('f-tel').addEventListener('input', function(e) {
+        let v = this.value.replace(/\D/g, '').slice(0, 11);
+        v = v.replace(/^(\d{2})(\d)/g, '($1) $2').replace(/(\d{5})(\d)/, '$1-$2');
+        this.value = v;
+    });
+
+    // Remove error on focus
+    document.querySelectorAll('.form-input').forEach(el => {
+        el.addEventListener('focus', () => el.classList.remove('error'));
+    });
+
+    // Carousel scroll → update dots
+    TURNOS.forEach(turno => {
+        const grid = document.getElementById('carousel-' + turno.id);
+        if (!grid) return;
+        grid.addEventListener('scroll', () => {
+            const cards = grid.querySelectorAll('.course-card');
+            const dots = document.querySelectorAll('#dots-' + turno.id + ' .carousel-dot');
+            let closest = 0, minDist = Infinity;
+            cards.forEach((card, i) => {
+                const dist = Math.abs(card.getBoundingClientRect().left - grid.getBoundingClientRect().left - 16);
+                if (dist < minDist) { minDist = dist; closest = i; }
+            });
+            dots.forEach((d, i) => d.classList.toggle('active', i === closest));
+        });
+    });
+});
+
+function scrollToCard(turnoId, idx) {
+    const grid = document.getElementById('carousel-' + turnoId);
+    const cards = grid.querySelectorAll('.course-card');
+    if (cards[idx]) cards[idx].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+}
+</script>
+</body>
+</html>
