@@ -1064,7 +1064,12 @@
 <!-- ════════ ADMIN UPLOAD PANEL ════════ -->
 <div class="admin-panel" id="adminPanel">
     <h3>Atualizar Cursos</h3>
-    <p class="admin-hint">Envie um arquivo JSON ou CSV para atualizar cursos, datas e instrutores.</p>
+    <p class="admin-hint">Envie um arquivo JSON ou CSV para atualizar o site para todos os visitantes.</p>
+    <div class="admin-token-row" id="adminTokenRow">
+        <label style="font-size:12px;color:var(--slate-500)">Token GitHub (necessário para publicar):</label>
+        <input type="password" id="adminGhToken" placeholder="ghp_..." style="width:100%;padding:6px 8px;border:1px solid var(--slate-300);border-radius:6px;font-size:13px;margin:4px 0 8px">
+        <button class="btn btn-ghost" onclick="saveGhToken()" style="font-size:12px">Salvar token</button>
+    </div>
     <div class="admin-drop-zone" id="adminDropZone" onclick="document.getElementById('adminFileInput').click()">
         <div class="admin-drop-icon"><span class="icon" style="width:28px;height:28px"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span></div>
         <p>Arraste um arquivo aqui<br>ou clique para selecionar<br><small style="color:var(--slate-400)">.json ou .csv</small></p>
@@ -2103,8 +2108,8 @@ function bindInputMasks() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    loadTurnosFromStorage();
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadTurnosFromRemote();
     initState();
     buildProgress();
     buildPanels();
@@ -2174,23 +2179,65 @@ function rebuildUI() {
 }
 
 /* ═══════════════════════════════════════════
-   LOCALSTORAGE PERSISTENCE
+   REMOTE JSON — Carrega programacao.json e publica via GitHub API
 ═══════════════════════════════════════════ */
-const STORAGE_KEY = 'vtabs_turnos_data';
+const GITHUB_REPO = 'beoaraujo/escola-de-contas-tcmpa';
+const GITHUB_FILE = 'programacao.json';
+const GH_TOKEN_KEY = 'vtabs_gh_token';
 
-function saveTurnosToStorage() {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(TURNOS)); } catch(e) {}
-}
-
-function loadTurnosFromStorage() {
+async function loadTurnosFromRemote() {
     try {
-        const d = localStorage.getItem(STORAGE_KEY);
-        if (d) { const p = JSON.parse(d); if (Array.isArray(p) && p.length > 0) { TURNOS = p; return true; } }
-    } catch(e) {}
+        const resp = await fetch('programacao.json?_t=' + Date.now());
+        if (resp.ok) {
+            const data = await resp.json();
+            if (Array.isArray(data) && data.length > 0) {
+                TURNOS = data;
+                return true;
+            }
+        }
+    } catch(e) { console.warn('Erro ao carregar programacao.json, usando dados padrão.', e); }
     return false;
 }
 
-function clearStoredTurnos() { localStorage.removeItem(STORAGE_KEY); }
+function saveGhToken() {
+    const t = document.getElementById('adminGhToken').value.trim();
+    if (t) {
+        localStorage.setItem(GH_TOKEN_KEY, t);
+        showToast('Token salvo!', 'success');
+    }
+}
+
+function getGhToken() {
+    return localStorage.getItem(GH_TOKEN_KEY) || '';
+}
+
+async function publishToGitHub(jsonData) {
+    const token = getGhToken();
+    if (!token) throw new Error('Token GitHub não configurado. Cole seu token no campo acima.');
+    // 1. Buscar SHA atual do arquivo
+    const metaResp = await fetch('https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + GITHUB_FILE, {
+        headers: { 'Authorization': 'token ' + token }
+    });
+    let sha = '';
+    if (metaResp.ok) { const meta = await metaResp.json(); sha = meta.sha; }
+    // 2. Atualizar arquivo no GitHub
+    const body = {
+        message: 'Atualizar programação via painel admin',
+        content: btoa(unescape(encodeURIComponent(jsonData))),
+        branch: 'main'
+    };
+    if (sha) body.sha = sha;
+    const putResp = await fetch('https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + GITHUB_FILE, {
+        method: 'PUT',
+        headers: { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    });
+    if (!putResp.ok) {
+        const err = await putResp.json();
+        throw new Error('GitHub: ' + (err.message || putResp.statusText));
+    }
+    return true;
+}
 
 /* ═══════════════════════════════════════════
    NORMALIZER — simplified/full JSON → TURNOS format
@@ -2332,6 +2379,11 @@ function validateTurnos(turnos) {
 function initAdmin() {
     if (!new URLSearchParams(window.location.search).has('admin')) return;
     document.getElementById('adminPanel').classList.add('visible');
+    // Carregar token salvo
+    const savedToken = getGhToken();
+    if (savedToken) {
+        document.getElementById('adminGhToken').value = savedToken;
+    }
     const dz = document.getElementById('adminDropZone');
     const fi = document.getElementById('adminFileInput');
     fi.addEventListener('change', e => { if (e.target.files.length) handleUploadedFile(e.target.files[0]); });
@@ -2348,7 +2400,7 @@ function handleUploadedFile(file) {
     const ext = file.name.split('.').pop().toLowerCase();
     if (!['json','csv'].includes(ext)) { st.innerHTML = '<div class="admin-status error">Use arquivo .json ou .csv</div>'; return; }
     const reader = new FileReader();
-    reader.onload = e => {
+    reader.onload = async (e) => {
         try {
             let parsed;
             if (ext === 'csv') parsed = parseCSV(e.target.result);
@@ -2356,12 +2408,19 @@ function handleUploadedFile(file) {
             const normalized = normalizeTurnos(parsed);
             const errors = validateTurnos(normalized);
             if (errors.length) { st.innerHTML = '<div class="admin-status error">' + errors.join('<br>') + '</div>'; return; }
+            // Atualizar localmente primeiro
             TURNOS = normalized;
-            saveTurnosToStorage();
             rebuildUI();
             const total = TURNOS.reduce((s, t) => s + t.courses.length, 0);
-            st.innerHTML = '<div class="admin-status success">Atualizado! ' + TURNOS.length + ' turnos, ' + total + ' cursos.</div>';
-            showToast('Cursos atualizados!', 'success');
+            st.innerHTML = '<div class="admin-status success" style="text-align:center">Publicando no site... aguarde</div>';
+            // Publicar no GitHub (Vercel faz deploy automático)
+            try {
+                await publishToGitHub(JSON.stringify(TURNOS, null, 2));
+                st.innerHTML = '<div class="admin-status success">Publicado! ' + TURNOS.length + ' turnos, ' + total + ' cursos.<br><small>O site atualiza para todos em ~30 segundos.</small></div>';
+                showToast('Publicado para todos!', 'success');
+            } catch(ghErr) {
+                st.innerHTML = '<div class="admin-status error">Atualizado localmente, mas não publicou:<br>' + ghErr.message + '</div>';
+            }
         } catch(err) { st.innerHTML = '<div class="admin-status error">Erro: ' + err.message + '</div>'; }
     };
     reader.readAsText(file, 'UTF-8');
@@ -2374,14 +2433,18 @@ function exportCurrentJSON() {
     showToast('JSON exportado!', 'success');
 }
 
-function resetToDefaults() {
+async function resetToDefaults() {
     if (!confirm('Restaurar cursos originais? Dados importados serão perdidos.')) return;
     TURNOS = JSON.parse(JSON.stringify(DEFAULT_TURNOS));
-    clearStoredTurnos();
     rebuildUI();
     const st = document.getElementById('adminStatus');
-    if (st) st.innerHTML = '<div class="admin-status success">Restaurado para os cursos padrão.</div>';
-    showToast('Cursos restaurados!', 'success');
+    try {
+        await publishToGitHub(JSON.stringify(TURNOS, null, 2));
+        if (st) st.innerHTML = '<div class="admin-status success">Restaurado e publicado!<br><small>Atualiza para todos em ~30s.</small></div>';
+        showToast('Restaurado e publicado!', 'success');
+    } catch(e) {
+        if (st) st.innerHTML = '<div class="admin-status error">Restaurado localmente, mas não publicou:<br>' + e.message + '</div>';
+    }
 }
 
 function downloadCSVTemplate() {
